@@ -1,1 +1,1 @@
-DEMO
+Skill / Job Recommender Application
