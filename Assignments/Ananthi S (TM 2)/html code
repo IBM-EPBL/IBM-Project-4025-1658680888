@@ -1,0 +1,133 @@
+<html>
+<head>
+	<title>My Resume</title>
+	<style>
+		
+  .content{
+  
+   background-color: azure;
+   
+  
+      
+  }
+  .container {
+        display: flex;
+        align-items: center;
+        justify-content: center
+
+      }
+  
+   .head{
+   margin:auto;
+    width:800px;
+    height:800px;
+    
+  }
+  .container {
+        
+        background-image: url("pattern3.jpg");
+         background-repeat: no-repeat;
+        width: 100%;
+        border-radius: 15px;
+    }
+    .contactform{
+    	padding-left: 900px;
+    }
+    .btn-1,.btn-2{
+    	background-color: lightpink;
+    	font-size: 15px;
+    }
+  
+	</style>
+	
+</head>
+<body>
+	
+	
+	
+<div class="container">
+	<div class="header"
+	<div class="image">
+	<img src="Ananthi-Photo.jpg"width="200" height="250">
+	
+</div>
+<div class="address">
+	<center>
+	<h2>Ananthi S</h2>
+	<p>Student</p>
+    <button class="btn-2">Resume</button>
+  <button class="btn-1">Hire me</button>
+</center>
+	
+		<table>
+                <tr>
+                    <th><i class="fa-solid fa-user"></i> Name</th>
+                    <th>:</th>
+                    <td>Ananthi S</td>
+                </tr>
+                <tr>
+                    <th><i class="fa-solid fa-mobile-screen-button"></i> Age</th>
+                    <th>:</th>
+                    <td>21</td>
+                </tr>
+                <tr>
+                    <th><i class="fa-solid fa-envelope"></i> Email id</th>
+                    <th>:</th>
+                    <td>anaXXXXXXX@gmail.com</td>
+                </tr>
+                <tr>
+                    <th><i class="fa-solid fa-mobile-screen-button"></i> Contact No</th>
+                    <th>:</th>
+                    <td>89XXXXXXXXX</td>
+                </tr>
+
+            </table>
+
+	
+  </div>
+
+</div>
+</div>
+
+<div class=content>
+<h1>About</h1>
+<p>Hello! Iam Ananthi S ,Iam currently pursuing my Engineering degree and Iam in my final year.<br>
+Iam interested in web development .I have done  some interesting projects in the domains Machine Learning,<br>
+Web Development and IOT.  </p>
+<br>
+<h2>Skills</h2>
+<h3>Programming Language:</h3>
+<ul>
+<li> C</li>
+<li> C++</li>
+<li>Java</li>
+</ul>
+
+<h3>Web development:</h3>
+<ul>
+<li> HTML</li>
+<li> CSS</li>
+<li>Bootstrap</li>
+</ul>
+</div>
+<div class="contactform">
+        <h3><i class="fa-solid fa-id-card"></i> Contact Form:</h3>
+        <form>
+            <label>Name :</label><br>
+            <input type="text" /><br>
+            <label>Age :</label><br>
+            <input type="text" /><br>
+            <label for="country">Country :</label><br>
+            <select id="country" name="country">
+                <option value="india">India</option>
+                <option value="canada">Canada</option>
+                <option value="usa">USA</option>
+                <option value="korea">Korea</option>
+            </select><br>
+            <label>Bio :</label><br>
+            <textarea placeholder="Write something.." style = "width:400px; height: 70px"></textarea>
+        </form>
+    </div>
+</div>
+
+</body>
