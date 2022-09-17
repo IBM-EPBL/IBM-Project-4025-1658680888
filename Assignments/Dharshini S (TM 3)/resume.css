@@ -1,0 +1,102 @@
+html{
+    font-family: 'Times New Roman';
+  margin:0px;
+    padding:0px;
+  }
+  img{
+    width:150px;
+    height:150px;
+    top:120px;
+    left:50px;
+    border : 4px solid white;
+    position:absolute;
+  }
+  
+  .head{
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   margin:auto;
+    width:800px;
+    height:800px;
+    
+  }
+  .contain{
+  padding:40px;
+  }
+  
+  .name{
+  postion:absolute;
+   padding-top:100px;
+   width:170px;
+     color:white;
+  }
+  .name  h2{
+  margin 0px;
+  }
+  p{
+    font-size:12px;
+     margin:0;
+    padding:0;
+  }
+  pre{
+     font-size:13px;
+    font-family: ;
+  }
+  .first{
+  height:250px;
+    background-color:purple;
+    border-radius:4px 4px 0px 0px;
+    position:relative;
+  }
+  
+  .second ,.third{
+  height:275px;
+  display:grid; 
+  grid-template-columns:auto  auto; 
+  }
+  .progress{
+  
+    width:300px;
+    height:17px;
+    background-color:#e5e5e5;
+    border-radius:4px;
+    position: relative;
+  }
+  .bar{
+  height: 100%;
+    width: 90%;
+    border-radius:4px;
+    position: absolute;
+    background-color:#498AE1;}
+    .sp{
+     margin-top:50px; 
+  }
+  .L{
+    background-color:#30AD97;
+  }
+  .b1{
+   width: 80%; 
+  }
+  .b2{
+     width: 75%; 
+  }
+  button{
+  width:68px;
+    height:24px;
+    border-radius:10px;
+    border:0px;
+    margin:5px;
+  }
+  
+  .second-left,.second-right,.third-left,.third-right{
+    width:395px;
+    
+  }
+  .btn-1{
+    color:white;
+    background-color:#30AD97;
+  }
+  
+  button:hover{
+  opacity:90%;
+  }
+  
