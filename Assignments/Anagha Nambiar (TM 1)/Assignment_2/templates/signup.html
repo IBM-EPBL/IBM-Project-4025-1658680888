@@ -1,0 +1,36 @@
+{% extends 'navbar.html'%}
+{% block head %}
+<title>Registeration</title>
+{% endblock %}
+{% block body %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col col-6 offset-3">
+            <form class="form" method = "post">
+                <h3 class="text-center jumbotron">REGISTER</h3>
+                <div class="form-group">
+                    <label>Username : </label> <input type="text" class="form-control" name="name" required="true">
+                </div>
+                <div class="form-group">
+                    <label>Roll Number : </label> <input type="text" class="form-control" name="age" required="true">
+                    
+                </div>
+                <div class="form-group">
+                    <label>Email : </label> 
+                    <input type="text" class="form-control" name="email" required="true">
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label>Password : </label>
+                    <input type="password" name="pswd" class="form-control" required="true">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-md btn-primary"><h4>SIGN UP</h4></button>
+                </div>   
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

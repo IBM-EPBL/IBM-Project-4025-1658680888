@@ -1,0 +1,7 @@
+body{
+    background-color: #006600;
+    background-image: url("welcome.png");
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size:cover;
+}

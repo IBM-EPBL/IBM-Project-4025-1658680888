@@ -1,0 +1,30 @@
+{% extends 'navbar.html'%}
+{% block head %}
+<title>Login</title>
+{% endblock %}
+{% block body %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-6 offset-lg-3">
+            <form class="form">
+                <h2 class="text-center jumbotron">LOGIN</h2>
+                <div class="form-group">
+                    <label>Username : </label> <input type="text" class="form-control" name="name" required="true">
+                </div>
+
+                <div class="form-group">
+                    <label>Password : </label>
+                    <input type="password" name="pswd" class="form-control" required="true">
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary" type="submit">Login</button>
+                </div>
+
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
