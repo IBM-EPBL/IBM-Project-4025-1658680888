@@ -3,8 +3,8 @@ import ibm_boto3
 from ibm_botocore.client import Config, ClientError
 
 COS_ENDPOINT="https://s3.jp-tok.cloud-object-storage.appdomain.cloud"
-COS_API_KEY_ID="lo9k7SBIGuahOzUkiA7ntO2hEHhX3-1UgFNv6p6sSMrO"
-COS_INSTANCE_CRN="crn:v1:bluemix:public:cloud-object-storage:global:a/331b915ecbfc4e7290278776aa39995b:4ce875b6-0206-47d6-aa3c-b5081179f897::"
+COS_API_KEY_ID="QKJcyZ5ki-Tp6v2YKDdGWg29NoeqFMb9gn0f3qLTiuyX"
+COS_INSTANCE_CRN="crn:v1:bluemix:public:cloud-object-storage:global:a/183cf6302de34ee49718a4b8e88221e6:644bc9a7-ea4f-40a1-b6d4-b7af9cd68850::"
 
 
 
@@ -37,7 +37,7 @@ def get_bucket_contents(bucket_name):
   
 @app.route('/')
 def index():
-    files = get_bucket_contents('inventory-mb')
+    files = get_bucket_contents('assignment3ntpibm')
     return render_template('index.html', files = files)
 
 if __name__=='__main__':
