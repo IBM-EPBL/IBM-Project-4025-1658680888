@@ -7,13 +7,14 @@
 <div class="container">
     <div class="row">
         <div class="col col-6 offset-3">
-            <form class="form" method = "post">
+            <form action="{{url_for('insert')}}" method = "POST">
+
                 <h3 class="text-center jumbotron">REGISTER</h3>
                 <div class="form-group">
-                    <label>Username : </label> <input type="text" class="form-control" name="name" required="true">
+                    <label>Username : </label> <input type="text" class="form-control" name="uname" required="true">
                 </div>
                 <div class="form-group">
-                    <label>Roll Number : </label> <input type="text" class="form-control" name="age" required="true">
+                    <label>Roll Number : </label> <input type="text" class="form-control" name="rollno" required="true">
                     
                 </div>
                 <div class="form-group">
