@@ -1,6 +1,6 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request
 import ibm_db
-import flask_MailboxValidator
+import MailboxValidator
 
 
 
@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 
-global e
+e = {}
 
 @app.route('/sign-up',methods = ['POST','GET'])
 def signup():
@@ -24,18 +24,23 @@ def signup():
         if a == True:
             return render_template('Resume.html')
         else:
-            return redirect(url_for('signup.html', message=a))
+            return render_template('signup.html', message=a+" Email not Valid.")
 
     elif request.method == 'GET':
         return render_template('signup.html')
 
+
+
 def verify_mail():
-    mbv = flask_MailboxValidator.EmailValidation('H4F1G609ZLDB1JVNTIT9')
+    mbv = MailboxValidator.EmailValidation('H4F1G609ZLDB1JVNTIT9')
     results = mbv.validate_email(e['email'])
     if results['status'] == True:
         return True
     else:
         return results['error_message']
+
+
+
 
 @app.route('/login')
 def login():
@@ -43,11 +48,13 @@ def login():
 
 
 
-@app.route('/register')
+@app.route('/register',methods = ['POST','GET'])
 def register():
-    return render_template('Registeration.html')
+    if request.method == 'POST':
+        return render_template('index.html')
+    elif request.method == 'GET':
+        return render_template('Resume.html')
 
-@app.route('/insert', methods = ['POST', 'GET'])
-def insert():
-    return
+
+
 

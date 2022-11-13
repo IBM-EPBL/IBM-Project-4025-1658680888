@@ -1,5 +1,6 @@
 <html>
-<head>  <title>Resume</title>
+<head>  
+  <title>Resume</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -8,12 +9,12 @@
 
 
 </head>
-<body style="background-image: url('purplebg.jpg');background-repeat: no-repeat; background-size: cover;">
+<body style="background-color: #7e0cf5;background-repeat: no-repeat; background-size: cover;">
 
 <div class="container">
 
 <div class="py-5">
-  <form class="bg-light">
+  <form class="bg-light" action="{{url_for('register')}}" method = "post">
     <br><br>
     <center><h1>Resume</h1></center>
 <br><br>
@@ -23,7 +24,7 @@
     <br><br>
     <div>
     <div class="mb-4 d-flex justify-content-center">
-        <img src="profile.jpg"
+        <img src="{{url_for('static', filename = '/images/Profile.jpg')}}"
         alt="example placeholder" style="width: 200px;" />
     </div>
     <div class="d-flex justify-content-center">
@@ -130,7 +131,7 @@
 
     <div class="col-md-4">
     <div class="form-group">
-      <label>Marks:</label>
+      <label>Percentage:</label>
       <input type="number" class="form-control" id="10marks">
     </div>
     </div>
@@ -155,7 +156,7 @@
 
     <div class="col-md-4">
     <div class="form-group">
-      <label>Marks:</label>
+      <label>Percentage:</label>
       <input type="number" class="form-control" id="12marks">
     </div>
     </div>
@@ -181,7 +182,7 @@
 
     <div class="col-md-4">
     <div class="form-group">
-      <label>Marks:</label>
+      <label>Percentage:</label>
       <input type="number" class="form-control" id="diplomamarks">
     </div>
     </div>
@@ -309,18 +310,18 @@
 <br>
 
   <div class="form-group">
-   <label>Projct 1:</label>
+   <label>Project 1:</label>
     <textarea class="form-control" rows="4" id="pj1"></textarea>
    
   </div>
 
    <div class="form-group">
-   <label>Projct 2:</label>
+   <label>Project 2:</label>
     <textarea class="form-control" rows="4" id="pj2"></textarea>
   </div>
 
    <div class="form-group">
-   <label>Projct 3:</label>
+   <label>Project 3:</label>
     <textarea class="form-control" rows="4" id="pj3"></textarea>
   </div>
 
