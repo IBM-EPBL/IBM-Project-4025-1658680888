@@ -16,11 +16,11 @@
 <div class="py-5">
   <form class="bg-light" action="{{url_for('register')}}" method = "post">
     <br><br>
-    <center><h1>Resume</h1></center>
+    <h1 style="text-align: center;">Resume</h1>
 <br><br>
 
 <div class="p-5 border ">
-    <center><lable><h3>Personal Details</h3></lable></center> 
+    <lable><h3 style="text-align: center;">Personal Details</h3></lable>
     <br><br>
     <div>
     <div class="mb-4 d-flex justify-content-center">
@@ -109,7 +109,7 @@
 
 
 <div class="p-5 border bg-light">
- <center><lable><h3>Academic Details</h3></lable></center>
+ <lable><h3 style="text-align: center;">Academic Details</h3></lable>
 <br><br>
 
 <lable><h5>X Standard</h5></lable>
@@ -255,7 +255,7 @@
 
 <div class="details">
 <div class="p-5 border bg-light">
- <center><lable><h3>Skillset and Project Details</h3></lable></center>
+ <lable><h3 style="text-align: center;">Skillset and Project Details</h3></lable>
 <br><br>
 
 <lable><h5>Skills</h5></lable>
@@ -264,21 +264,33 @@
     <div class="col-md-4">
     <div class="form-group">
       <label>Skill 1:</label>
-      <input type="text" class="form-control" id="skill1">
+      <select name="skill1" class="form-control"  required>
+        {% for s in skills %}
+        <option value= "{{s}}" SELECTED>{{s}}</option>"
+        {% endfor %}
+      </select>
     </div>
     </div>
 
     <div class="col-md-4">
     <div class="form-group">
       <label>Skill 2:</label>
-      <input type="text" class="form-control" id="skill2">
+      <select name="skill2" class="form-control"  required>
+        {% for s in skills %}
+        <option value= "{{s}}" SELECTED>{{s}}</option>"
+        {% endfor %}
+      </select>
     </div>
     </div>
 
     <div class="col-md-4">
     <div class="form-group">
       <label>Skill 3:</label>
-      <input type="text" class="form-control" id="skill3">
+      <select name="skill3" class="form-control"  required>
+        {% for s in skills %}
+        <option value= "{{s}}" SELECTED>{{s}}</option>"
+        {% endfor %}
+      </select>
     </div>
     </div>
   </div>
@@ -287,21 +299,33 @@
     <div class="col-md-4">
     <div class="form-group">
       <label>Skill 4:</label>
-      <input type="text" class="form-control" id="skill4">
+      <select name="skill4" class="form-control">
+        {% for s in skills %}
+        <option value= "{{s}}" SELECTED>{{s}}</option>"
+        {% endfor %}
+      </select>
     </div>
     </div>
 
     <div class="col-md-4">
     <div class="form-group">
       <label>Skill 5:</label>
-      <input type="text" class="form-control" id="skill5">
+      <select name="skill5" class="form-control">
+        {% for s in skills %}
+        <option value= "{{s}}" SELECTED>{{s}}</option>"
+        {% endfor %}
+      </select>
     </div>
     </div>
 
     <div class="col-md-4">
     <div class="form-group">
       <label>Skill 6:</label>
-      <input type="text" class="form-control" id="skill6">
+      <select name="skill6" class="form-control">
+        {% for s in skills %}
+        <option value= "{{s}}" SELECTED>{{s}}</option>"
+        {% endfor %}
+      </select>
     </div>
     </div>
   </div>
@@ -332,21 +356,21 @@
     <div class="col-md-4">
     <div class="form-group">
       <label>Company 1:</label>
-      <input type="text" class="form-control" id="company1">
+      <input type="text" class="form-control" name="company1">
     </div>
     </div>
 
     <div class="col-md-4">
     <div class="form-group">
       <label>Company 2:</label>
-      <input type="text" class="form-control" id="company2">
+      <input type="text" class="form-control" name="company2">
     </div>
     </div>
 
     <div class="col-md-4">
     <div class="form-group">
       <label>Company 3:</label>
-      <input type="text" class="form-control" id="company3">
+      <input type="text" class="form-control" name="company3">
     </div>
     </div>
   </div>
@@ -354,7 +378,7 @@
 
 </div>
 
- <center><button type="submit" class="btn btn-primary btn-rounded btn-lg btn-block">Submit</button></center>
+ <button type="submit" class="btn btn-primary btn-rounded btn-lg btn-block">Submit</button>
  </form>
 </div>
 </div>
