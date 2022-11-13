@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,300&display=swap" rel="stylesheet">
+      
+        <link rel="stylesheet" href="{{url_for('static', filename = '/fonts/icomoon/style.css')}}">
+      
+        <link rel="stylesheet" href="{{url_for('static', filename = '/css/owl.carousel.min.css')}}">
+      
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{url_for('static', filename = '/css/bootstrap.min.css')}}">
+      
+        <!-- Style -->
+        <link rel="stylesheet" href="{{url_for('static', filename = '/css/style.css')}}">
+        {% block head %}{% endblock %}
+        
+      </head>       
+</head>
+
+<body>
+
+        
+   {% block body %}{% endblock %}
+</body>
+</html>
