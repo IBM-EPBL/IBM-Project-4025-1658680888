@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Project Dracula</title>
+</head>
+
+<style>
+    html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-left,
+.login-page {
+    margin-top: 10%;
+    text-align: center;
+    border-radius: 20px;
+    /* margin-bottom: 50px; */
+    /* padding-bottom: 20px; */
+}
+
+.login-page {
+    border: 50px;
+    margin-top: 10%;
+    margin-right: 25%;
+    padding: 40px;
+    /* padding: 0px 20px; */
+    /* padding-bottom: 40px; */
+    background: rgb(181, 233, 254);
+    text-align: center;
+}
+
+.title {
+    font-size: 35px;
+    margin-top: 20px;
+}
+
+.subtitle {
+    font-size: 20px;
+}
+
+
+.form {
+    margin-top: 30px;
+    /* margin-right: 150px; */
+}
+
+.form input {
+    margin: 10px;
+    font-size: 15px;
+    padding: 10px 30px;
+    border-radius: 12px;
+}
+
+button.login {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* button.login:hover {
+    font-size: 18px;
+    animation-duration: 2s;
+} */
+
+.remember-me > input {
+    cursor: pointer;
+}
+
+
+
+.options {
+    text-align: left;
+    /* padding-left: 55px; */
+    margin-top: 16px;
+    /* margin-right: 30px; */
+    /* margin-left: 20px; */
+}
+
+.options>div {
+    font-size: 16px;
+    margin-top: 10px;
+    /* margin-left: 20px; */
+    text-align: center;
+    /* margin-right: 30px; */
+}
+</style>
+<body>
+    <div class="container">
+        <div class="image-left">
+            <img src="signin-image.jpg" alt="" width="500px" height="500px">
+        </div>
+
+        <div class="login-page">
+            <div class="logo">
+                <!-- <img src="img/dracula-logo.jpeg" alt="" width="30%"> -->
+            </div>
+            <div class="title">Jobup</div>
+            <!-- <div class="subtitle">Subtitle</div> -->
+            <div class="form">
+                <div class="username">
+                    <input type="text" placeholder="Username or Email">
+                </div>
+                <div class="password">
+                    <input type="password" placeholder="Password">
+                </div>
+                <div class="login">
+                    <button type="button" class="login">Login</button>
+                </div>
+                <div class="login">
+                    <button type="button" class="login" href = "signup.html">Sign Up</button>
+                </div>
+            </div>
+            <div class="options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</body>
+
+</html>
