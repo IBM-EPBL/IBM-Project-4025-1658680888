@@ -1,385 +1,424 @@
-<html>
-<head>  
-  <title>Resume</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% extends 'dash_resu.html'%}
+{% block head %}
+<title>Resume</title>
+<style>
+  body{
+    background-color: #7e0cf5;
+    background-repeat: no-repeat; 
+    background-size: cover;
+  }
+</style>
+<script>
+   function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
+{% endblock %}
+{% block body %}
+
+ <div class="container">
+
+    <div class="py-5">
+      <form class="bg-light" action="{{url_for('register')}}" method="post">
+        <br><br>
+        <h1 style="text-align: center;">Resume</h1>
+        <br><br>
+
+        <div class="p-5 border ">
+          <lable>
+            <h3 style="text-align: center;">Personal Details</h3>
+          </lable>
+          <br><br>
+          <div>
+            <div class="mb-4 d-flex justify-content-center">
+              <img  id="blah" src="{{url_for('static', filename = '/images/Profile.jpg')}}" alt="example placeholder"
+                style="width: 200px;" />
+            </div>
+            <div class="d-flex justify-content-center">
+              
+                <input onchange="readURL(this);" class="btn btn-primary btn-rounded" type="file" name="photo" id="apply" accept="image/*">              </div>
+            
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+
+                <label>First name:</label>
+                <input type="text" class="form-control" name="firstname" required>
+              </div>
+
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Last name:</label>
+                <input type="text" class="form-control" name="lastname" required>
+              </div>
+            </div>
+          </div>
 
 
-</head>
-<body style="background-color: #7e0cf5;background-repeat: no-repeat; background-size: cover;">
 
-<div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Date of Birth:</label>
+                <input type="Date" class="form-control " name="dob" required>
+              </div>
+            </div>
 
-<div class="py-5">
-  <form class="bg-light" action="{{url_for('register')}}" method = "post">
-    <br><br>
-    <h1 style="text-align: center;">Resume</h1>
-<br><br>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Email:</label>
+                <input type="email" class="form-control" name="email" required>
+              </div>
+            </div>
+          </div>
 
-<div class="p-5 border ">
-    <lable><h3 style="text-align: center;">Personal Details</h3></lable>
-    <br><br>
-    <div>
-    <div class="mb-4 d-flex justify-content-center">
-        <img src="{{url_for('static', filename = '/images/Profile.jpg')}}"
-        alt="example placeholder" style="width: 200px;" />
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="btn btn-primary btn-rounded">
-            <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-            <input type="file" class="form-control d-none" id="customFile1" />
+
+
+
+
+
+
+          <label>Gender:</label>
+
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="gender" required> <label>Male</label>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-check">
+
+                <input type="radio" class="form-check-input" name="gender"> <label>Female</label>
+              </div>
+            </div>
+            <div class=col-md-4>
+              <div class="form-check">
+
+                <input type="radio" class="form-check-input" name="gender"><label>Not like to mention</label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
         </div>
-    </div>
-</div>
 
-<br>
-  <div class="row">
-    <div class="col-md-6">
-    <div class="form-group">
-      
-      <label>First name:</label>
-      <input type="text" class="form-control" id="firstname">
-    </div>
 
-    </div>
+        <div class="p-5 border bg-light">
+          <lable>
+            <h3 style="text-align: center;">Academic Details</h3>
+          </lable>
+          <br><br>
 
-    <div class="col-md-6">
-    <div class="form-group">
-      <label>Last name:</label>
-      <input type="text" class="form-control" id="lastname">
-    </div>
+          <lable>
+            <h5>X Standard</h5>
+          </lable>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>School Name:</label>
+                <input type="text" class="form-control" name="10school" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Year:</label>
+                <input type="number" class="form-control" name="10year" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Percentage:</label>
+                <input type="number" class="form-control" name="10marks" required>
+              </div>
+            </div>
+          </div>
+
+          <lable>
+            <h5>XII Standard</h5>
+          </lable>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>School Name:</label>
+                <input type="text" class="form-control" name="12school" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Year:</label>
+                <input type="number" class="form-control" name="12year" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Percentage:</label>
+                <input type="number" class="form-control" name="12marks" required>
+              </div>
+            </div>
+          </div>
+
+
+          <lable>
+            <h5>Diploma</h5>
+          </lable>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Course Name:</label>
+                <input type="text" class="form-control" name="diplomacourse" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Year:</label>
+                <input type="number" class="form-control" name="diplomayear" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Percentage:</label>
+                <input type="number" class="form-control" name="diplomamarks" required>
+              </div>
+            </div>
+          </div>
+
+          <lable>
+            <h5>UG</h5>
+          </lable>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>College Name:</label>
+                <input type="text" class="form-control" name="ugcollege" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Year:</label>
+                <input type="number" class="form-control" name="ugyear" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Degree:</label>
+                <input type="text" class="form-control" name="ugdegree" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>CGPA:</label>
+                <input type="number" class="form-control" name="ugcgpa" required>
+              </div>
+            </div>
+          </div>
+
+          <lable>
+            <h5>PG</h5>
+          </lable>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>College Name:</label>
+                <input type="text" class="form-control" name="pgcollege" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Year:</label>
+                <input type="number" class="form-control" name="pgyear" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Degree:</label>
+                <input type="text" class="form-control" name="pgdegree" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>CGPA:</label>
+                <input type="number" class="form-control" name="pgcgpa" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details">
+          <div class="p-5 border bg-light">
+            <lable>
+              <h3 style="text-align: center;">Skillset and Project Details</h3>
+            </lable>
+            <br><br>
+
+            <lable>
+              <h5>Skills</h5>
+            </lable>
+            <br>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Skill 1:</label>
+                  <select name="skill1" class="form-control" required>
+                    {% for s in skills %}
+                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Skill 2:</label>
+                  <select name="skill2" class="form-control" required>
+                    {% for s in skills %}
+                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Skill 3:</label>
+                  <select name="skill3" class="form-control" required>
+                    {% for s in skills %}
+                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Skill 4:</label>
+                  <select name="skill4" class="form-control">
+                    {% for s in skills %}
+                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Skill 5:</label>
+                  <select name="skill5" class="form-control">
+                    {% for s in skills %}
+                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Skill 6:</label>
+                  <select name="skill6" class="form-control">
+                    {% for s in skills %}
+                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <lable>
+              <h5>Projects</h5>
+            </lable>
+            <br>
+
+            <div class="form-group">
+              <label>Project 1:</label>
+              <textarea class="form-control" rows="4" name="pj1" required></textarea>
+
+            </div>
+
+            <div class="form-group">
+              <label>Project 2:</label>
+              <textarea class="form-control" rows="4" name="pj2"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Project 3:</label>
+              <textarea class="form-control" rows="4" name="pj3"></textarea>
+            </div>
+
+
+            <lable>
+              <h5>Top 3 companines of Choice</h5>
+            </lable>
+            <br>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Company 1:</label>
+                  <input type="text" class="form-control" name="company1" required>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Company 2:</label>
+                  <input type="text" class="form-control" name="company2" required>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Company 3:</label>
+                  <input type="text" class="form-control" name="company3" required>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-rounded btn-lg btn-block">Submit</button>
+      </form>
     </div>
   </div>
-
-
-
- <div class="row">
-    <div class="col-md-6">
-    <div class="form-group">
-    <label>Date of Birth:</label>
-    <input type="Date" class="form-control " id="dob">
-  </div>
-</div>
-
- <div class="col-md-6">
-    <div class="form-group">
-      <label>Email:</label>
-      <input type="email" class="form-control" id="email">
-    </div>
-    </div>
-  </div>
+{% endblock %}
 
 
 
 
-  
-
-
-<label>Gender:</label>
-
-  <div class="row">
-
-    <div class="col-md-4">
-   <div class="form-check">
-    <input type="radio" class="form-check-input" name="gender"> <label>Male</label>
-  </div>
-</div>
-<div class="col-md-4">
-  <div class="form-check">
-   
-    <input type="radio" class="form-check-input" name="gender">  <label>Female</label>
-  </div>
-</div>
-<div class=col-md-4>
-  <div class="form-check">
-    
-    <input type="radio" class="form-check-input" name="gender"><label>Not like to mention</label> 
-  </div>
-</div>
-</div>
-
-
-
-  
-
-</div>
-
-
-<div class="p-5 border bg-light">
- <lable><h3 style="text-align: center;">Academic Details</h3></lable>
-<br><br>
-
-<lable><h5>X Standard</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>School Name:</label>
-      <input type="text" class="form-control" id="10school">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Year:</label>
-      <input type="number" class="form-control" id="10year">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Percentage:</label>
-      <input type="number" class="form-control" id="10marks">
-    </div>
-    </div>
-  </div>
-
-  <lable><h5>XII Standard</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>School Name:</label>
-      <input type="text" class="form-control" id="12school">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Year:</label>
-      <input type="number" class="form-control" id="12year">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Percentage:</label>
-      <input type="number" class="form-control" id="12marks">
-    </div>
-    </div>
-  </div>
-
-
-  <lable><h5>Diploma</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Course Name:</label>
-      <input type="text" class="form-control" id="diplomacourse">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Year:</label>
-      <input type="number" class="form-control" id="diplomayear">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Percentage:</label>
-      <input type="number" class="form-control" id="diplomamarks">
-    </div>
-    </div>
-  </div>
-
-   <lable><h5>UG</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-3">
-    <div class="form-group">
-      <label>College Name:</label>
-      <input type="text" class="form-control" id="ugcollege">
-    </div>
-    </div>
-
-    <div class="col-md-3">
-    <div class="form-group">
-      <label>Year:</label>
-      <input type="number" class="form-control" id="ugyear">
-    </div>
-    </div>
-
-    <div class="col-md-3">
-    <div class="form-group">
-      <label>Degree:</label>
-      <input type="text" class="form-control" id="ugdegree">
-    </div>
-    </div>
-
-     <div class="col-md-3">
-    <div class="form-group">
-      <label>CGPA:</label>
-      <input type="number" class="form-control" id="ugcgpa">
-    </div>
-    </div>
-  </div>
-
-<lable><h5>PG</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-3">
-    <div class="form-group">
-      <label>College Name:</label>
-      <input type="text" class="form-control" id="pgcollege">
-    </div>
-    </div>
-
-    <div class="col-md-3">
-    <div class="form-group">
-      <label>Year:</label>
-      <input type="number" class="form-control" id="pgyear">
-    </div>
-    </div>
-
-    <div class="col-md-3">
-    <div class="form-group">
-      <label>Degree:</label>
-      <input type="text" class="form-control" id="pgdegree">
-    </div>
-    </div>
-
-     <div class="col-md-3">
-    <div class="form-group">
-      <label>CGPA:</label>
-      <input type="number" class="form-control" id="pgcgpa">
-    </div>
-    </div>
-  </div>
-</div>
-
-<div class="details">
-<div class="p-5 border bg-light">
- <lable><h3 style="text-align: center;">Skillset and Project Details</h3></lable>
-<br><br>
-
-<lable><h5>Skills</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Skill 1:</label>
-      <select name="skill1" class="form-control"  required>
-        {% for s in skills %}
-        <option value= "{{s}}" SELECTED>{{s}}</option>"
-        {% endfor %}
-      </select>
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Skill 2:</label>
-      <select name="skill2" class="form-control"  required>
-        {% for s in skills %}
-        <option value= "{{s}}" SELECTED>{{s}}</option>"
-        {% endfor %}
-      </select>
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Skill 3:</label>
-      <select name="skill3" class="form-control"  required>
-        {% for s in skills %}
-        <option value= "{{s}}" SELECTED>{{s}}</option>"
-        {% endfor %}
-      </select>
-    </div>
-    </div>
-  </div>
-
-<div class="row">
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Skill 4:</label>
-      <select name="skill4" class="form-control">
-        {% for s in skills %}
-        <option value= "{{s}}" SELECTED>{{s}}</option>"
-        {% endfor %}
-      </select>
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Skill 5:</label>
-      <select name="skill5" class="form-control">
-        {% for s in skills %}
-        <option value= "{{s}}" SELECTED>{{s}}</option>"
-        {% endfor %}
-      </select>
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Skill 6:</label>
-      <select name="skill6" class="form-control">
-        {% for s in skills %}
-        <option value= "{{s}}" SELECTED>{{s}}</option>"
-        {% endfor %}
-      </select>
-    </div>
-    </div>
-  </div>
-
-  <lable><h5>Projects</h5></lable>
-<br>
-
-  <div class="form-group">
-   <label>Project 1:</label>
-    <textarea class="form-control" rows="4" id="pj1"></textarea>
-   
-  </div>
-
-   <div class="form-group">
-   <label>Project 2:</label>
-    <textarea class="form-control" rows="4" id="pj2"></textarea>
-  </div>
-
-   <div class="form-group">
-   <label>Project 3:</label>
-    <textarea class="form-control" rows="4" id="pj3"></textarea>
-  </div>
-
-
-<lable><h5>Top 3 companines of Choice</h5></lable>
-<br>
-<div class="row">
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Company 1:</label>
-      <input type="text" class="form-control" name="company1">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Company 2:</label>
-      <input type="text" class="form-control" name="company2">
-    </div>
-    </div>
-
-    <div class="col-md-4">
-    <div class="form-group">
-      <label>Company 3:</label>
-      <input type="text" class="form-control" name="company3">
-    </div>
-    </div>
-  </div>
-
-
-</div>
-
- <button type="submit" class="btn btn-primary btn-rounded btn-lg btn-block">Submit</button>
- </form>
-</div>
-</div>
-</body></html>
+ 
