@@ -25,7 +25,6 @@ def signup():
     if request.method == 'POST':
         e['email'] = request.form['email']
         e['mobno'] = request.form['mobile']
-        e['username'] = request.form['username']
         e['pswd'] = sha256_crypt.encrypt(request.form['pswd'])
         
         a = verify_mail()
@@ -118,7 +117,7 @@ def register():
 
         conn = db_conn()
 
-        insert_sql = "INSERT INTO applicant (f_name,l_name,dob,gender,email,photo,mobile,password,username) VALUES (?,?,?,?,?,?,?,?,?)"
+        insert_sql = "INSERT INTO applicant (f_name,l_name,dob,gender,email,photo,mobile,password) VALUES (?,?,?,?,?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
         ibm_db.bind_param(prep_stmt, 1, firstname )
         ibm_db.bind_param(prep_stmt, 2, lastname)
@@ -128,16 +127,16 @@ def register():
         ibm_db.bind_param(prep_stmt, 6, render_file)
         ibm_db.bind_param(prep_stmt, 7,  e['mobno'])
         ibm_db.bind_param(prep_stmt, 8,  e['pswd'])
-        ibm_db.bind_param(prep_stmt, 9,  e['username'])
+        
         ibm_db.execute(prep_stmt)
 
-        sql = "SELECT * FROM applicant WHERE email =?"
-        stmt = ibm_db.prepare(conn, sql)
-        ibm_db.bind_param(stmt,1,email)
-        ibm_db.execute(stmt)
+        u = []
+        sql = "SELECT * FROM applicant WHERE email = "+ e['email']
+        stmt = ibm_db.exec_immediate(conn, sql)
         account = ibm_db.fetch_assoc(stmt)
+        
 
-        pid = account['pid']
+        pid = account["PID"]
 
         insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
