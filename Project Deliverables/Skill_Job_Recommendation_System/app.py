@@ -50,12 +50,14 @@ def login():
 @app.route('/register',methods = ['POST','GET'])
 def register():
     if request.method == 'POST':
-        return render_template('index.html')
+        return render_template('dashboard.html')
     elif request.method == 'GET':
         skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
         return render_template('Resume.html', skills=skills)
         
-
+@app.route('/dashboard',methods = ['GET'])
+def dasboard():
+    return render_template('dashboard.html')
 
 
 

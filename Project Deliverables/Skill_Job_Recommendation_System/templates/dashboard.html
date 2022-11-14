@@ -1,57 +1,21 @@
-<html>
-
-<head>
+{% extends 'dash_resu.html'%}
+{% block head %}
   <title>Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <style>
+    <style>
     .navbar {
-      background-color: #847dff;
+      background-color: #7e0cf5;
     }
   </style>
+{% endblock %}
+{% include 'navbar.html' %}
+{% block body %}
 
-
-<body>
-
-  <div class="container-fluid">
-    <nav class="navbar navbar-dark navbar-expand-lg ">
-
-      <a class="navbar-brand" href="#">Job UP</a>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#" class="btn btn-secondary mr-4">View Resume</a></li>
-          <li><a href="#" class="btn btn-secondary mr-4">Edit Resume</a></li>
-          <li><a href="#" class="btn btn-secondary">Search Job</a></li>
-
-        </ul>
-
-      </div>
-
-    </nav>
-  </div>
-
-
-  <div class="container">
+<div class="container">
     <br><br>
     <div class="row">
       <div class="col-md-4">
         <div class="card" style="width: 19rem;">
-          <img class="card-img-top" src="udemy.jpg" alt="Card image cap">
+          <img class="card-img-top" src="{{url_for('static', filename = '/images/udemy.jpg')}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Udemy</h5>
             <p class="card-text"> Biggest online learning platform offering 200,000+ online courses where users can
@@ -63,7 +27,7 @@
 
       <div class="col-md-4">
         <div class="card" style="width: 19rem;">
-          <img class="card-img-top" src="coursera1.png" alt="Card image cap">
+          <img class="card-img-top" src="{{url_for('static', filename = '/images/coursera1.png')}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Coursera</h5>
             <p class="card-text">Provides universal access to the world's best education, partnering with top
@@ -76,7 +40,7 @@
 
       <div class="col-md-4">
         <div class="card" style="width: 19rem;">
-          <img class="card-img-top" src="nptel.jpg" alt="Card image cap">
+          <img class="card-img-top" src="{{url_for('static', filename = '/images/nptel.jpg')}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">NPTEL</h5>
             <p class="card-text">The project of MHRD initiated by 7 IITs along with IISc,aims to provide quality
@@ -92,7 +56,7 @@
     <div class="row">
       <div class="col-md-4">
         <div class="card" style="width: 19rem;">
-          <img class="card-img-top" src="udacity.png" alt="Card image cap">
+          <img class="card-img-top" src="{{url_for('static', filename = '/images/udacity.png')}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Udacity</h5>
             <p class="card-text"> Global online education provider that offers technical and innovative courses.Aims to
@@ -104,7 +68,7 @@
 
       <div class="col-md-4">
         <div class="card" style="width: 19rem;">
-          <img class="card-img-top" src="skillshare.png" alt="Card image cap">
+          <img class="card-img-top" src="{{url_for('static', filename = '/images/skillshare.png')}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">SkillShare</h5>
             <p class="card-text"> Reunite learning with education and make it accessible to every single person on this
@@ -117,7 +81,7 @@
 
       <div class="col-md-4">
         <div class="card" style="width: 19rem;">
-          <img class="card-img-top" src="edx.png" alt="Card image cap">
+          <img class="card-img-top" src="{{url_for('static', filename = '/images/edx.png')}}" alt="Card image cap">
           <div class="card-body">
             <br>
             <h5 class="card-title">edx</h5>
@@ -134,6 +98,4 @@
         class="fa fa-chat"></i>ChatBot</button>
 
   </div>
-</body>
-
-</html>
+  {% endblock %}
