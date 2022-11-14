@@ -28,7 +28,7 @@
  <div class="container">
 
     <div class="py-5">
-      <form class="bg-light" action="{{url_for('register')}}" method="post">
+      <form class="bg-light" action="{{url_for('register')}}" method="post" enctype="multipart/form-data">
         <br><br>
         <h1 style="text-align: center;">Resume</h1>
         <br><br>
@@ -125,6 +125,7 @@
         <div class="p-5 border bg-light">
           <lable>
             <h3 style="text-align: center;">Academic Details</h3>
+            <p style="font-size: 11px;text-align: center">Type 'NA' if not applicable</p>
           </lable>
           <br><br>
 
@@ -143,14 +144,14 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2022" class="form-control" name="10year" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="10year" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Percentage:</label>
-                <input type="number" placeholder="%" min="0" max="100" class="form-control" name="10marks" required>
+                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="10marks" required>
               </div>
             </div>
           </div>
@@ -170,14 +171,14 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2022" class="form-control" name="12year" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="12year" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Percentage:</label>
-                <input type="number" placeholder="%" min="0" max="100" class="form-control" name="12marks" required>
+                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="12marks" required>
               </div>
             </div>
           </div>
@@ -198,14 +199,14 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2022" class="form-control" name="dyear" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="dyear" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Percentage:</label>
-                <input type="number" placeholder="%" min="0" max="100" class="form-control" name="dmarks" required>
+                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="dmarks" required>
               </div>
             </div>
           </div>
@@ -225,7 +226,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2022" class="form-control" name="ugyear" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="ugyear" required>
               </div>
             </div>
 
@@ -239,7 +240,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>CGPA:</label>
-                <input type="number" placeholder="CGPA" min="0" max="10" class="form-control" name="ugcgpa" required>
+                <input type="number" placeholder="CGPA" min="0" max="10" step=".01" class="form-control" name="ugcgpa" required>
               </div>
             </div>
           </div>
@@ -259,7 +260,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2022" class="form-control" name="pgyear" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="pgyear" required>
               </div>
             </div>
 
@@ -273,7 +274,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>CGPA:</label>
-                <input type="number" placeholder="CGPA" min="0" max="10" class="form-control" name="pgcgpa" required>
+                <input type="number" placeholder="CGPA" min="0" max="10" step=".01" class="form-control" name="pgcgpa" required>
               </div>
             </div>
           </div>

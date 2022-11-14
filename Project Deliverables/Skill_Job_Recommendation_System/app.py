@@ -1,15 +1,17 @@
-import base64
-import random
+from passlib.hash import sha256_crypt
 from flask import Flask,render_template,request,session
-import ibm_db,re
+import ibm_db,re,random,base64
 import MailboxValidator
 
 
 
-
-
-conn = ibm_db.connect("DATABASE=bludb;HOSTNAME=b1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud;PORT=32304;SECURITY=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=khc44923;PWD=VMdkxmMxV1Z30kOH",'','')
-
+def db_conn():
+    try:
+        conn = ibm_db.connect("DATABASE=bludb;HOSTNAME=b1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud;PORT=32304;SECURITY=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=khc44923;PWD=VMdkxmMxV1Z30kOH",'','')
+    except:     
+        return ibm_db.conn_errormsg()
+    else:
+        return conn
 
 app = Flask(__name__)
 val = random.randint(100000, 999999)
@@ -19,12 +21,12 @@ app.secret_key = str(val)
 e = {}
 
 @app.route('/sign-up',methods = ['POST','GET'])
-@app.route('/')
 def signup():
     if request.method == 'POST':
         e['email'] = request.form['email']
-        e['mobno'] = request.form['mobile number']
+        e['mobno'] = request.form['mobile']
         e['username'] = request.form['username']
+        e['pswd'] = sha256_crypt.encrypt(request.form['pswd'])
         
         a = verify_mail()
         if a == "True":
@@ -80,18 +82,18 @@ def register():
         c12['marks'] = request.form['12marks']
 
         d = {}
-        d['school'] = request.form['dcourse']
+        d['course'] = request.form['dcourse']
         d['year'] = request.form ['dyear']
         d['marks'] = request.form['dmarks']
 
         ug = {}
-        ug['school'] = request.form['ugcollege']
+        ug['clg'] = request.form['ugcollege']
         ug['year'] = request.form ['ugyear']
         ug['degree'] = request.form['ugdegree']
         ug['cgpa'] = request.form['ugcgpa']
 
         pg = {}
-        pg['school'] = request.form['ugcollege']
+        pg['clg'] = request.form['ugcollege']
         pg['year'] = request.form ['ugyear']
         pg['degree'] = request.form['ugdegree']
         pg['cgpa'] = request.form['ugcgpa']
@@ -113,6 +115,99 @@ def register():
             var = 'company'+str(i)
             if request.form[var] != '':
                 comp.append(request.form[var])
+
+        conn = db_conn()
+
+        insert_sql = "INSERT INTO applicant (f_name,l_name,dob,gender,email,photo,mobile,password,username) VALUES (?,?,?,?,?,?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, firstname )
+        ibm_db.bind_param(prep_stmt, 2, lastname)
+        ibm_db.bind_param(prep_stmt, 3, dob)
+        ibm_db.bind_param(prep_stmt, 4, gender)
+        ibm_db.bind_param(prep_stmt, 5, email)
+        ibm_db.bind_param(prep_stmt, 6, render_file)
+        ibm_db.bind_param(prep_stmt, 7,  e['mobno'])
+        ibm_db.bind_param(prep_stmt, 8,  e['pswd'])
+        ibm_db.bind_param(prep_stmt, 9,  e['username'])
+        ibm_db.execute(prep_stmt)
+
+        sql = "SELECT * FROM applicant WHERE email =?"
+        stmt = ibm_db.prepare(conn, sql)
+        ibm_db.bind_param(stmt,1,email)
+        ibm_db.execute(stmt)
+        account = ibm_db.fetch_assoc(stmt)
+
+        pid = account['pid']
+
+        insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, c10['school'])
+        ibm_db.bind_param(prep_stmt, 3, c10['year'] )    
+        ibm_db.bind_param(prep_stmt, 4, c10['marks'] )
+        ibm_db.execute(prep_stmt)
+
+        insert_sql = "INSERT INTO acd_12 VALUES (?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, c12['school'])
+        ibm_db.bind_param(prep_stmt, 3, c12['year'] )    
+        ibm_db.bind_param(prep_stmt, 4, c12['marks'] )
+        ibm_db.execute(prep_stmt)
+
+        insert_sql = "INSERT INTO acd_diploma VALUES (?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, d['school'])
+        ibm_db.bind_param(prep_stmt, 3, d['year'] )    
+        ibm_db.bind_param(prep_stmt, 4, d['marks'] )
+        ibm_db.execute(prep_stmt)
+
+        insert_sql = "INSERT INTO acd_ug VALUES (?,?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, ug['clg'])
+        ibm_db.bind_param(prep_stmt, 3, ug['year'] )    
+        ibm_db.bind_param(prep_stmt, 4, ug['degree'] )
+        ibm_db.bind_param(prep_stmt, 5, ug['cgpa'] )
+        ibm_db.execute(prep_stmt)
+
+        insert_sql = "INSERT INTO acd_pg VALUES (?,?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, pg['clg'])
+        ibm_db.bind_param(prep_stmt, 3, pg['year'] )    
+        ibm_db.bind_param(prep_stmt, 4, pg['degree'] )
+        ibm_db.bind_param(prep_stmt, 5, pg['cgpa'] )
+        ibm_db.execute(prep_stmt)
+
+        insert_sql = "INSERT INTO project VALUES (?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, proj[0])
+        ibm_db.bind_param(prep_stmt, 3, proj[1])    
+        ibm_db.bind_param(prep_stmt, 4, proj[2])
+        ibm_db.execute(prep_stmt)
+
+        insert_sql = "INSERT INTO skill VALUES (?,?,?,?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, skill[0])
+        ibm_db.bind_param(prep_stmt, 3, skill[1])    
+        ibm_db.bind_param(prep_stmt, 4, skill[2])
+        ibm_db.bind_param(prep_stmt, 2, skill[3])
+        ibm_db.bind_param(prep_stmt, 3, skill[4])    
+        ibm_db.bind_param(prep_stmt, 4, skill[5])
+        ibm_db.execute(prep_stmt)
+        
+        insert_sql = "INSERT INTO top3_comp VALUES (?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, pid )
+        ibm_db.bind_param(prep_stmt, 2, comp[0])
+        ibm_db.bind_param(prep_stmt, 3, comp[1])    
+        ibm_db.bind_param(prep_stmt, 4, comp[2])
+        ibm_db.execute(prep_stmt)
+        
 
         return render_template('dashboard.html')
     elif request.method == 'GET':
