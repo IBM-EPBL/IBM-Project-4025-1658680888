@@ -143,81 +143,83 @@ def register():
         ibm_db.bind_param(stmt, 1, email )
         ibm_db.execute(stmt)
         account = ibm_db.fetch_assoc(stmt)
+        
         if account:
             pid = account['PID']
 
 
-        insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, c10.get('school'))
-        ibm_db.bind_param(prep_stmt, 3, c10.get('year'))    
-        ibm_db.bind_param(prep_stmt, 4, c10.get('marks'))
-        ibm_db.execute(prep_stmt)
+            insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, c10.get('school'))
+            ibm_db.bind_param(prep_stmt, 3, c10.get('year'))    
+            ibm_db.bind_param(prep_stmt, 4, c10.get('marks'))
+            ibm_db.execute(prep_stmt)
 
-        insert_sql = "INSERT INTO acd_12 VALUES (?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, c12.get('school'))
-        ibm_db.bind_param(prep_stmt, 3, c12.get('year'))    
-        ibm_db.bind_param(prep_stmt, 4, c12.get('marks'))
-        ibm_db.execute(prep_stmt)
+            insert_sql = "INSERT INTO acd_12 VALUES (?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, c12.get('school'))
+            ibm_db.bind_param(prep_stmt, 3, c12.get('year'))    
+            ibm_db.bind_param(prep_stmt, 4, c12.get('marks'))
+            ibm_db.execute(prep_stmt)
 
-        insert_sql = "INSERT INTO acd_diploma VALUES (?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, d['school'])
-        ibm_db.bind_param(prep_stmt, 3, d['year'] )    
-        ibm_db.bind_param(prep_stmt, 4, d['marks'] )
-        ibm_db.execute(prep_stmt)
+            insert_sql = "INSERT INTO acd_diploma VALUES (?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, d.get('course'))
+            ibm_db.bind_param(prep_stmt, 3, d.get('year') )    
+            ibm_db.bind_param(prep_stmt, 4, d.get('marks') )
+            ibm_db.execute(prep_stmt)
 
-        insert_sql = "INSERT INTO acd_ug VALUES (?,?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, ug['clg'])
-        ibm_db.bind_param(prep_stmt, 3, ug['year'] )    
-        ibm_db.bind_param(prep_stmt, 4, ug['degree'] )
-        ibm_db.bind_param(prep_stmt, 5, ug['cgpa'] )
-        ibm_db.execute(prep_stmt)
+            insert_sql = "INSERT INTO acd_ug VALUES (?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, ug.get('clg'))
+            ibm_db.bind_param(prep_stmt, 3, ug.get('cgpa'))
+            ibm_db.bind_param(prep_stmt, 4, ug.get('year') )    
+            ibm_db.bind_param(prep_stmt, 5, ug.get('degree') )
+            
+            ibm_db.execute(prep_stmt)
 
-        insert_sql = "INSERT INTO acd_pg VALUES (?,?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, pg['clg'])
-        ibm_db.bind_param(prep_stmt, 3, pg['year'] )    
-        ibm_db.bind_param(prep_stmt, 4, pg['degree'] )
-        ibm_db.bind_param(prep_stmt, 5, pg['cgpa'] )
-        ibm_db.execute(prep_stmt)
+            insert_sql = "INSERT INTO acd_pg VALUES (?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, pg.get('clg'))
+            ibm_db.bind_param(prep_stmt, 3, pg.get('cgpa'))    
+            ibm_db.bind_param(prep_stmt, 4, pg.get('degree'))
+            ibm_db.bind_param(prep_stmt, 5, pg.get('year'))
+            ibm_db.execute(prep_stmt)
 
-        insert_sql = "INSERT INTO project VALUES (?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, proj[0])
-        ibm_db.bind_param(prep_stmt, 3, proj[1])    
-        ibm_db.bind_param(prep_stmt, 4, proj[2])
-        ibm_db.execute(prep_stmt)
+            insert_sql = "INSERT INTO project VALUES (?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, proj[0])
+            ibm_db.bind_param(prep_stmt, 3, proj[1])    
+            ibm_db.bind_param(prep_stmt, 4, proj[2])
+            ibm_db.execute(prep_stmt)
 
-        insert_sql = "INSERT INTO skill VALUES (?,?,?,?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, skill[0])
-        ibm_db.bind_param(prep_stmt, 3, skill[1])    
-        ibm_db.bind_param(prep_stmt, 4, skill[2])
-        ibm_db.bind_param(prep_stmt, 2, skill[3])
-        ibm_db.bind_param(prep_stmt, 3, skill[4])    
-        ibm_db.bind_param(prep_stmt, 4, skill[5])
-        ibm_db.execute(prep_stmt)
-        
-        insert_sql = "INSERT INTO top3_comp VALUES (?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, comp[0])
-        ibm_db.bind_param(prep_stmt, 3, comp[1])    
-        ibm_db.bind_param(prep_stmt, 4, comp[2])
-        ibm_db.execute(prep_stmt)
-        
+            insert_sql = "INSERT INTO skill VALUES (?,?,?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, skill[0])
+            ibm_db.bind_param(prep_stmt, 3, skill[1])    
+            ibm_db.bind_param(prep_stmt, 4, skill[2])
+            ibm_db.bind_param(prep_stmt, 5, skill[3])
+            ibm_db.bind_param(prep_stmt, 6, skill[4])    
+            ibm_db.bind_param(prep_stmt, 7, skill[5])
+            ibm_db.execute(prep_stmt)
 
-        return render_template('dashboard.html')
+            insert_sql = "INSERT INTO top3_comp VALUES (?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, pid )
+            ibm_db.bind_param(prep_stmt, 2, comp[0])
+            ibm_db.bind_param(prep_stmt, 3, comp[1])    
+            ibm_db.bind_param(prep_stmt, 4, comp[2])
+            ibm_db.execute(prep_stmt)
+
+
+            return render_template('dashboard.html')
     elif request.method == 'GET':
         if session.get('email') == 'None':
             return render_template('signup.html')
