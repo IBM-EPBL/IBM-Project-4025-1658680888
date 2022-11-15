@@ -1,6 +1,19 @@
 {% extends 'head_login_signup.html'%}
 {% block head %}
 <title>Sign-Up</title>
+<style>
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    width: 200px;
+    height: 30px;
+    padding: 0 5px;
+  }
+</style>
 {% endblock %}
 {% block body %}
 <div class="content">
@@ -30,7 +43,7 @@
                 <input type="password" class="form-control" name="pswd" placeholder="Password">
               </div>
 
-              
+
               <div class="d-flex mb-5 align-items-center">
                 <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                   <input type="checkbox" checked="checked" />
@@ -40,7 +53,7 @@
               </div>
               <div>
                 {{message}}
-              </div> 
+              </div>
               <button type="submit" class="btn btn-block btn-primary"> Submit
               </button>
             </form>
@@ -50,14 +63,5 @@
     </div>
   </div>
 </div>
-  
+
 {% endblock %}
-
-
-
-
-
-
-
-
-  
