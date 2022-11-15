@@ -26,7 +26,7 @@ e = {}
 def signup():
     if request.method == 'POST':
         e['email'] = request.form['email']
-        e['mobile'] = request.form['mobile']
+        e['mobile'] = str(request.form['mobile'])
         e['pswd'] = sha256_crypt.encrypt(request.form['pswd'])
 
         sql =  "SELECT * FROM applicant WHERE email = ?"
@@ -45,7 +45,7 @@ def signup():
                 skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
                 return render_template('Resume.html', required = e['email'],skills=skills)
             elif a == "False":
-                message = a
+                message = 'Error in email'
                 return render_template('signup.html', message=message )
     
     elif request.method == 'GET':
@@ -56,7 +56,7 @@ def signup():
 def verify_mail():
     mbv = MailboxValidator.EmailValidation("H4F1G609ZLDB1JVNTIT9")
     results = mbv.validate_email(e['email'])
-    return results['is_verified']
+    return results['status']
         
 
 

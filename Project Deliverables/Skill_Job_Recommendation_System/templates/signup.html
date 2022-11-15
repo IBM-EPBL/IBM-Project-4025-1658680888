@@ -51,9 +51,15 @@
                 </label>
                 <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
               </div>
-              <div>
-                {{message}}
-              </div>
+              
+              {% if message:%}
+                <div class="alert alert-danger">
+                  <h6>
+                      Error in email validation.
+                  </h6>
+                </div>
+              {% endif %}
+              
               <button type="submit" class="btn btn-block btn-primary"> Submit
               </button>
             </form>
