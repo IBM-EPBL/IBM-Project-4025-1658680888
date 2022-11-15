@@ -133,111 +133,121 @@ def register():
             else:
                 comp.append("")
 
-        
 
-        insert_sql = "INSERT INTO applicant (f_name,l_name,dob,gender,email,photo,mobile,password) VALUES (?,?,?,?,?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, firstname )
-        ibm_db.bind_param(prep_stmt, 2, lastname)
-        ibm_db.bind_param(prep_stmt, 3, dob)
-        ibm_db.bind_param(prep_stmt, 4, gender)
-        ibm_db.bind_param(prep_stmt, 5, email)
-        ibm_db.bind_param(prep_stmt, 6, render_file)
-        ibm_db.bind_param(prep_stmt, 7, session.get('mobile'))
-        ibm_db.bind_param(prep_stmt, 8, e.get('pswd'))
-        ibm_db.execute(prep_stmt)
-
-        u = []
         sql =  "SELECT * FROM applicant WHERE email = ?"
         stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, email )
+        ibm_db.bind_param(stmt, 1, e.get('email') )
         ibm_db.execute(stmt)
         account = ibm_db.fetch_assoc(stmt)
         
         if account:
-            pid = account['PID']
-
-            
-            insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
-            prep_stmt = ibm_db.prepare(conn, insert_sql)
-            ibm_db.bind_param(prep_stmt, 1, pid )
-            ibm_db.bind_param(prep_stmt, 2, c10.get('school'))
-            ibm_db.bind_param(prep_stmt, 3, c10.get('year'))    
-            ibm_db.bind_param(prep_stmt, 4, c10.get('marks'))
-            ibm_db.execute(prep_stmt)
-
-            
-            insert_sql = "INSERT INTO acd_12 VALUES (?,?,?,?)"
-            prep_stmt = ibm_db.prepare(conn, insert_sql)
-            ibm_db.bind_param(prep_stmt, 1, pid )
-            ibm_db.bind_param(prep_stmt, 2, c12.get('school'))
-            ibm_db.bind_param(prep_stmt, 3, c12.get('marks'))    
-            ibm_db.bind_param(prep_stmt, 4, c12.get('year'))
-            ibm_db.execute(prep_stmt)
-
-            if d.get('course').lower() != 'NA'.lower():
-                insert_sql = "INSERT INTO acd_diploma VALUES (?,?,?,?)"
-                prep_stmt = ibm_db.prepare(conn, insert_sql)
-                ibm_db.bind_param(prep_stmt, 1, pid )
-                ibm_db.bind_param(prep_stmt, 2, d.get('course'))
-                ibm_db.bind_param(prep_stmt, 3, d.get('marks') )    
-                ibm_db.bind_param(prep_stmt, 4, d.get('year') )
-                ibm_db.execute(prep_stmt)
-
-            if ug.get('clg').lower() != 'NA'.lower():
-                insert_sql = "INSERT INTO acd_ug VALUES (?,?,?,?,?)"
-                prep_stmt = ibm_db.prepare(conn, insert_sql)
-                ibm_db.bind_param(prep_stmt, 1, pid )
-                ibm_db.bind_param(prep_stmt, 2, ug.get('clg'))
-                ibm_db.bind_param(prep_stmt, 3, ug.get('cgpa'))
-                ibm_db.bind_param(prep_stmt, 4, ug.get('year'))    
-                ibm_db.bind_param(prep_stmt, 5, ug.get('degree'))
-                ibm_db.execute(prep_stmt)
-
-            if pg.get('clg').lower() != 'NA'.lower():
-                insert_sql = "INSERT INTO acd_pg VALUES (?,?,?,?,?)"
-                prep_stmt = ibm_db.prepare(conn, insert_sql)
-                ibm_db.bind_param(prep_stmt, 1, pid )
-                ibm_db.bind_param(prep_stmt, 2, pg.get('clg'))
-                ibm_db.bind_param(prep_stmt, 3, pg.get('cgpa'))    
-                ibm_db.bind_param(prep_stmt, 4, pg.get('degree'))
-                ibm_db.bind_param(prep_stmt, 5, pg.get('year'))
-                ibm_db.execute(prep_stmt)
-
-            if proj[0].lower() != 'NA'.lower():
-                insert_sql = "INSERT INTO project VALUES (?,?,?,?)"
-                prep_stmt = ibm_db.prepare(conn, insert_sql)
-                ibm_db.bind_param(prep_stmt, 1, pid )
-                ibm_db.bind_param(prep_stmt, 2, proj[0])
-                ibm_db.bind_param(prep_stmt, 3, proj[1])    
-                ibm_db.bind_param(prep_stmt, 4, proj[2])
-                ibm_db.execute(prep_stmt)
-
-            if skill[0].lower() != 'NA'.lower():
-                insert_sql = "INSERT INTO skill VALUES (?,?,?,?,?,?,?)"
-                prep_stmt = ibm_db.prepare(conn, insert_sql)
-                ibm_db.bind_param(prep_stmt, 1, pid )
-                ibm_db.bind_param(prep_stmt, 2, skill[0])
-                ibm_db.bind_param(prep_stmt, 3, skill[1])    
-                ibm_db.bind_param(prep_stmt, 4, skill[2])
-                ibm_db.bind_param(prep_stmt, 5, skill[3])
-                ibm_db.bind_param(prep_stmt, 6, skill[4])    
-                ibm_db.bind_param(prep_stmt, 7, skill[5])
-                ibm_db.execute(prep_stmt)
-
-            
-            insert_sql = "INSERT INTO top3_comp VALUES (?,?,?,?)"
-            prep_stmt = ibm_db.prepare(conn, insert_sql)
-            ibm_db.bind_param(prep_stmt, 1, pid )
-            ibm_db.bind_param(prep_stmt, 2, comp[0])
-            ibm_db.bind_param(prep_stmt, 3, comp[1])    
-            ibm_db.bind_param(prep_stmt, 4, comp[2])
-            ibm_db.execute(prep_stmt)
-
             return render_template('dashboard.html')
+
+        else:
+
+            insert_sql = "INSERT INTO applicant (f_name,l_name,dob,gender,email,photo,mobile,password) VALUES (?,?,?,?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, firstname )
+            ibm_db.bind_param(prep_stmt, 2, lastname)
+            ibm_db.bind_param(prep_stmt, 3, dob)
+            ibm_db.bind_param(prep_stmt, 4, gender)
+            ibm_db.bind_param(prep_stmt, 5, email)
+            ibm_db.bind_param(prep_stmt, 6, render_file)
+            ibm_db.bind_param(prep_stmt, 7, session.get('mobile'))
+            ibm_db.bind_param(prep_stmt, 8, e.get('pswd'))
+            ibm_db.execute(prep_stmt)
+
+            u = []
+            sql =  "SELECT * FROM applicant WHERE email = ?"
+            stmt = ibm_db.prepare(conn,sql)
+            ibm_db.bind_param(stmt, 1, email )
+            ibm_db.execute(stmt)
+            account = ibm_db.fetch_assoc(stmt)
+
+            if account:
+                pid = account['PID']
+
+
+                insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                ibm_db.bind_param(prep_stmt, 1, pid )
+                ibm_db.bind_param(prep_stmt, 2, c10.get('school'))
+                ibm_db.bind_param(prep_stmt, 3, c10.get('year'))    
+                ibm_db.bind_param(prep_stmt, 4, c10.get('marks'))
+                ibm_db.execute(prep_stmt)
+
+
+                insert_sql = "INSERT INTO acd_12 VALUES (?,?,?,?)"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                ibm_db.bind_param(prep_stmt, 1, pid )
+                ibm_db.bind_param(prep_stmt, 2, c12.get('school'))
+                ibm_db.bind_param(prep_stmt, 3, c12.get('marks'))    
+                ibm_db.bind_param(prep_stmt, 4, c12.get('year'))
+                ibm_db.execute(prep_stmt)
+
+                if d.get('course').lower() != 'NA'.lower():
+                    insert_sql = "INSERT INTO acd_diploma VALUES (?,?,?,?)"
+                    prep_stmt = ibm_db.prepare(conn, insert_sql)
+                    ibm_db.bind_param(prep_stmt, 1, pid )
+                    ibm_db.bind_param(prep_stmt, 2, d.get('course'))
+                    ibm_db.bind_param(prep_stmt, 3, d.get('marks') )    
+                    ibm_db.bind_param(prep_stmt, 4, d.get('year') )
+                    ibm_db.execute(prep_stmt)
+
+                if ug.get('clg').lower() != 'NA'.lower():
+                    insert_sql = "INSERT INTO acd_ug VALUES (?,?,?,?,?)"
+                    prep_stmt = ibm_db.prepare(conn, insert_sql)
+                    ibm_db.bind_param(prep_stmt, 1, pid )
+                    ibm_db.bind_param(prep_stmt, 2, ug.get('clg'))
+                    ibm_db.bind_param(prep_stmt, 3, ug.get('cgpa'))
+                    ibm_db.bind_param(prep_stmt, 4, ug.get('year'))    
+                    ibm_db.bind_param(prep_stmt, 5, ug.get('degree'))
+                    ibm_db.execute(prep_stmt)
+
+                if pg.get('clg').lower() != 'NA'.lower():
+                    insert_sql = "INSERT INTO acd_pg VALUES (?,?,?,?,?)"
+                    prep_stmt = ibm_db.prepare(conn, insert_sql)
+                    ibm_db.bind_param(prep_stmt, 1, pid )
+                    ibm_db.bind_param(prep_stmt, 2, pg.get('clg'))
+                    ibm_db.bind_param(prep_stmt, 3, pg.get('cgpa'))    
+                    ibm_db.bind_param(prep_stmt, 4, pg.get('degree'))
+                    ibm_db.bind_param(prep_stmt, 5, pg.get('year'))
+                    ibm_db.execute(prep_stmt)
+
+                if proj[0].lower() != 'NA'.lower():
+                    insert_sql = "INSERT INTO project VALUES (?,?,?,?)"
+                    prep_stmt = ibm_db.prepare(conn, insert_sql)
+                    ibm_db.bind_param(prep_stmt, 1, pid )
+                    ibm_db.bind_param(prep_stmt, 2, proj[0])
+                    ibm_db.bind_param(prep_stmt, 3, proj[1])    
+                    ibm_db.bind_param(prep_stmt, 4, proj[2])
+                    ibm_db.execute(prep_stmt)
+
+                if skill[0].lower() != 'NA'.lower():
+                    insert_sql = "INSERT INTO skill VALUES (?,?,?,?,?,?,?)"
+                    prep_stmt = ibm_db.prepare(conn, insert_sql)
+                    ibm_db.bind_param(prep_stmt, 1, pid )
+                    ibm_db.bind_param(prep_stmt, 2, skill[0])
+                    ibm_db.bind_param(prep_stmt, 3, skill[1])    
+                    ibm_db.bind_param(prep_stmt, 4, skill[2])
+                    ibm_db.bind_param(prep_stmt, 5, skill[3])
+                    ibm_db.bind_param(prep_stmt, 6, skill[4])    
+                    ibm_db.bind_param(prep_stmt, 7, skill[5])
+                    ibm_db.execute(prep_stmt)
+
+
+                insert_sql = "INSERT INTO top3_comp VALUES (?,?,?,?)"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                ibm_db.bind_param(prep_stmt, 1, pid )
+                ibm_db.bind_param(prep_stmt, 2, comp[0])
+                ibm_db.bind_param(prep_stmt, 3, comp[1])    
+                ibm_db.bind_param(prep_stmt, 4, comp[2])
+                ibm_db.execute(prep_stmt)
+
+                return render_template('dashboard.html')
     elif request.method == 'GET':
         if session.get('email') == 'None':
-            return render_template('signup.html')
+                return render_template('signup.html')
         else:
             skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
             return render_template('Resume.html', required = session.get('email') ,skills=skills)
