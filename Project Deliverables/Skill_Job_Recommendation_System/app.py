@@ -2,6 +2,7 @@ from passlib.hash import sha256_crypt
 from flask import Flask,render_template,request,session
 import ibm_db,re,random,base64
 import MailboxValidator
+from markupsafe import escape
 
 
 
@@ -24,12 +25,13 @@ e = {}
 def signup():
     if request.method == 'POST':
         e['email'] = request.form['email']
-        e['mobno'] = request.form['mobile']
+        e['mobile'] = request.form['mobile']
         e['pswd'] = sha256_crypt.encrypt(request.form['pswd'])
         
         a = verify_mail()
         if a == "True":
             session['email'] = request.form['email']
+            session['mobile'] = request.form['mobile']
             skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
             return render_template('Resume.html', required = e['email'],skills=skills)
         elif a == "False":
@@ -102,18 +104,24 @@ def register():
             var = 'skill'+str(i)
             if request.form[var] != 'Choose a Skill':
                 skill.append(request.form[var])
+            else:
+                skill.append("")
 
         proj = []
         for i in range(1,4):
             var = 'pj'+str(i)
             if request.form[var] != '':
                 proj.append(request.form[var])
+            else:
+                proj.append("")
 
         comp = []
         for i in range(1,4):
             var = 'company'+str(i)
             if request.form[var] != '':
                 comp.append(request.form[var])
+            else:
+                comp.append("")
 
         conn = db_conn()
 
@@ -125,33 +133,34 @@ def register():
         ibm_db.bind_param(prep_stmt, 4, gender)
         ibm_db.bind_param(prep_stmt, 5, email)
         ibm_db.bind_param(prep_stmt, 6, render_file)
-        ibm_db.bind_param(prep_stmt, 7,  e['mobno'])
-        ibm_db.bind_param(prep_stmt, 8,  e['pswd'])
-        
+        ibm_db.bind_param(prep_stmt, 7, session.get('mobile'))
+        ibm_db.bind_param(prep_stmt, 8, e.get('pswd'))
         ibm_db.execute(prep_stmt)
 
         u = []
-        sql = "SELECT * FROM applicant WHERE email = "+ e['email']
-        stmt = ibm_db.exec_immediate(conn, sql)
+        sql =  "SELECT * FROM applicant WHERE email = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, email )
+        ibm_db.execute(stmt)
         account = ibm_db.fetch_assoc(stmt)
-        
+        if account:
+            pid = account['PID']
 
-        pid = account["PID"]
 
         insert_sql = "INSERT INTO acd_10 VALUES (?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
         ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, c10['school'])
-        ibm_db.bind_param(prep_stmt, 3, c10['year'] )    
-        ibm_db.bind_param(prep_stmt, 4, c10['marks'] )
+        ibm_db.bind_param(prep_stmt, 2, c10.get('school'))
+        ibm_db.bind_param(prep_stmt, 3, c10.get('year'))    
+        ibm_db.bind_param(prep_stmt, 4, c10.get('marks'))
         ibm_db.execute(prep_stmt)
 
         insert_sql = "INSERT INTO acd_12 VALUES (?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
         ibm_db.bind_param(prep_stmt, 1, pid )
-        ibm_db.bind_param(prep_stmt, 2, c12['school'])
-        ibm_db.bind_param(prep_stmt, 3, c12['year'] )    
-        ibm_db.bind_param(prep_stmt, 4, c12['marks'] )
+        ibm_db.bind_param(prep_stmt, 2, c12.get('school'))
+        ibm_db.bind_param(prep_stmt, 3, c12.get('year'))    
+        ibm_db.bind_param(prep_stmt, 4, c12.get('marks'))
         ibm_db.execute(prep_stmt)
 
         insert_sql = "INSERT INTO acd_diploma VALUES (?,?,?,?)"
