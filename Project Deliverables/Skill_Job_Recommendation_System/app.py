@@ -1,6 +1,9 @@
 from passlib.hash import sha256_crypt
-from flask import Flask,render_template,request,session
-import ibm_db,re,random,base64
+from flask import Flask,render_template,request,session,make_response
+import ibm_db,random,base64,io
+from PIL import Image
+
+
 
 from markupsafe import escape
 import MailboxValidator
@@ -78,9 +81,14 @@ def verify_mail():
 
 
 
-@app.route('/login')
+@app.route('/login',methods = ['POST','GET'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        
+        return render_template('dashboard.html')
+
+    elif request.method == 'GET':
+        return render_template('login.html')
 
 
 @app.route('/register',methods = ['POST'])
@@ -137,7 +145,7 @@ def register():
         proj = []
         for i in range(1,4):
             var = 'pj'+str(i)
-            if request.form[var] != '':
+            if request.form[var] != 'NA'.lower():
                 proj.append(request.form[var])
             else:
                 proj.append("")
@@ -273,7 +281,9 @@ def render_picture(data):
     render_pic = base64.b64encode(data).decode('ascii') 
     return render_pic
 
-@app.route('/view',methods = ['GET'])
+
+
+@app.route('/view', methods = ['GET'])
 def viewresume():
         account = {}
         sql =  "SELECT * FROM applicant WHERE email = ?"
@@ -342,7 +352,7 @@ def viewresume():
         ibm_db.execute(stmt)
         account1 = ibm_db.fetch_assoc(stmt)
         account['skill'] = account1
-
+        
         return render_template('View.html', account=account)
 
         

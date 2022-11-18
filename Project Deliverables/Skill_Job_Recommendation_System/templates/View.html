@@ -1,5 +1,6 @@
 {% extends 'dash_resu.html'%}
 {% block head %}
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>View Resume</title>
 <style>
   .navbar {
@@ -36,19 +37,22 @@ function getPDF() {
 <br>
 <div class="container" >
   <div class="float-right">
-    <button class="btn btn-primary btn-rounded btn-md btn-block" id="getPDF" onclick="getPDF()">Download <i class="fas fa-download"></i></button>
+    <form action = "/pdf" method="POST">
+      <button class="btn btn-primary btn-rounded btn-md btn-block" id="getPDF" onclick="getPDF()"> Download <i class="fas fa-download"></i></button>
+    </form>
   </div>
-  <div id="editor"></div>
-  <div class="container zima" id="content">
+  <div class="container zima">
     <h2 style="text-align: center;">Resume</h2>
     
     <br>
     <br>
-    <h3>Personal Details</h3>
+    <h3><i class="fas fa-address-card"></i> Personal Details</h3>
     <br>
     <table class="table table-striped ">
 
       <tbody>
+        
+
         <tr>
           <th>First Name </th>
           <td>{{account['per']['F_NAME']}}</td>
@@ -70,10 +74,15 @@ function getPDF() {
         </tr>
 
         <tr>
+          <th>Contact Number</th>
+          <td>{{account['per']['MOBILE']}}</td>
+        </tr>
+
+        <tr>
           <th>Gender </th>
-          <td>{% if account['per']['GENDER'] == 'f'%}
+          <td>{% if account['per']['GENDER'] == 'f' %}
             Female
-            {% elif account['per']['GENDER'] == 'm'%}
+            {% elif account['per']['GENDER'] == 'm' %}
             Male
             {% else %}
             Non Binary
@@ -86,9 +95,9 @@ function getPDF() {
     </table>
 
     <br>
-    <h3>Academic Details</h3>
+    <h3><i class="fas fa-graduation-cap"></i>  Academic Details</h3>
     <br>
-    <h3>School</h3>
+    <h4>School</h4>
     <table class="table table-striped ">
       <thead>
         <tr>
@@ -122,11 +131,11 @@ function getPDF() {
       </tbody>
     </table>
     {% if account['ug'] != "" %}
-    <h3>College</h3>
+    <h4>College</h4>
     <table class="table table-striped ">
       <thead>
         <tr>
-          <th></th>
+          <th> </th>
           <th>Institution Name</th>
           <th>Degree</th>
           <th>Graduating Year</th>
@@ -134,7 +143,7 @@ function getPDF() {
         </tr>
       </thead>
       <tbody>
-        {% if account['ug'] != "False" %}
+        {% if account['ug'] != "" %}
         <tr>
           <th>UG</th>
           <td>{{account['ug']['C_NAME']}}</td>
@@ -155,45 +164,52 @@ function getPDF() {
       </tbody>
     </table>
     {% endif %}
+    <br>
 
-    <h3>Skillset</h3>
+    <h3><i class="fas fa-fire"></i> Skillset</h3>
     <br>
     <ul class="list-unstyled">
-      <li><i class="fa fa-check-square-o" aria-hidden="true"></i>
-        {{account['skill']['SKILL1']}}</li>
-      <li><i class="fa fa-check-square-o" aria-hidden="true"></i>
-        {{account['skill']['SKILL2']}}</li>
-      <li>{{account['skill']['SKILL3']}}</li>
-      <li>{{account['skill']['SKILL4']}}</li>
-      <li>{{account['skill']['SKILL5']}}</li>
-      <li>{{account['skill']['SKILL6']}}</li>
+      <li><i class="fas fa-clipboard-check"> </i>   {{account['skill']['SKILL1']}}</li>
+      <li><i class="fas fa-clipboard-check"> </i>   {{account['skill']['SKILL2']}}</li>
+      <li><i class="fas fa-clipboard-check"> </i>   {{account['skill']['SKILL3']}}</li>
+    {% if account['skill']['SKILL4'] != "" %}
+      <li><i class="fas fa-clipboard-check"> </i>   {{account['skill']['SKILL4']}}</li>
+      <li><i class="fas fa-clipboard-check"> </i>   {{account['skill']['SKILL5']}}</li>
+      <li><i class="fas fa-clipboard-check"> </i>   {{account['skill']['SKILL6']}}</li>
+    {% endif %}
     </ul>
-    <h3>Projects</h3>
+    <br>
+    <h3><i class="fas fa-atom"></i> Projects</h3>
     <br>
     <div class="card">
       <div class="card-header">
-        Project 1
+        <b>Project 1</b>
       </div>
       <div class="card-body">
-        <p class="card-text"></p>
+        <p class="card-text">{{account['p']['PROJ1']}}</p>
       </div>
     </div>
+
+    {% if account['p']['PROJ2'] != "" %}
     <div class="card">
       <div class="card-header">
-        Project 2
+        <b>Project 2</b>
       </div>
       <div class="card-body">
-        <p class="card-text"></p>
+        <p class="card-text">{{account['p']['PROJ2']}}</p>
       </div>
     </div>
+    {% endif %}
+    {% if account['p']['PROJ3'] != "" %}
     <div class="card">
       <div class="card-header">
-        Project 3
+        <b>Project 3</b>
       </div>
       <div class="card-body">
-        <p class="card-text"></p>
+        <p class="card-text">{{account['p']['PROJ3']}}</p>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

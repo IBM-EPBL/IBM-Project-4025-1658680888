@@ -11,13 +11,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{{url_for('dashboard')}}">Home <span class="sr-only">(current)</span></a>
           <li><a href="#" class="nav-item nav-link">Search Job</a></li>
         </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="View.html" class="nav-item nav-link">View Resume</a></li>
+        <li><a href="{{url_for('viewresume')}}" class="nav-item nav-link">View Resume</a></li>
         <li><a href="Edit.html" class="nav-item nav-link">Edit Resume</a></li>
         <li><a href="" class="nav-item nav-link">Logout</a></li>
 
