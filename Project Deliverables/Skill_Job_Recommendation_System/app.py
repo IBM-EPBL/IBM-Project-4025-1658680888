@@ -1,8 +1,12 @@
 from passlib.hash import sha256_crypt
 from flask import Flask,render_template,request,session
 import ibm_db,re,random,base64
-import MailboxValidator
+
 from markupsafe import escape
+import MailboxValidator
+
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 
@@ -45,7 +49,7 @@ def signup():
                 skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
                 return render_template('Resume.html', required = e['email'],skills=skills)
             elif a == "False":
-                message = 'Error in email'
+                message = 'Error in email validation'
                 return render_template('signup.html', message=message )
     
     elif request.method == 'GET':
@@ -56,8 +60,20 @@ def signup():
 def verify_mail():
     mbv = MailboxValidator.EmailValidation("H4F1G609ZLDB1JVNTIT9")
     results = mbv.validate_email(e['email'])
-    return results['status']
+
+    email_message = Mail(
+    from_email='anagha.nambiar.2019.cse@rajalakshmi.edu.in',
+    to_emails= e.get('email'),
+    subject='Job UP Email Verification',
+    html_content='<h3>Thankyou for signing up with JOB UP</h3><br><p>This email is sent to verify the applicant. You are a registered user now.<br> </p><h2>Job UP, All In One Stop For Job.</h2>')
+    try:
+        sg = SendGridAPIClient('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')
+        response = sg.send(email_message)
+        status = response.status_code
+    except Exception as err:
+        print(err.message)
         
+    return results['status']
 
 
 
@@ -67,8 +83,9 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register',methods = ['POST','GET'])
+@app.route('/register',methods = ['POST'])
 def register():
+    
     if request.method == 'POST':
 
         file = request.files['photo']
@@ -104,10 +121,10 @@ def register():
         ug['cgpa'] = request.form['ugcgpa']
 
         pg = {}
-        pg['clg'] = request.form['ugcollege']
-        pg['year'] = request.form ['ugyear']
-        pg['degree'] = request.form['ugdegree']
-        pg['cgpa'] = request.form['ugcgpa']
+        pg['clg'] = request.form['pgcollege']
+        pg['year'] = request.form ['pgyear']
+        pg['degree'] = request.form['pgdegree']
+        pg['cgpa'] = request.form['pgcgpa']
 
         skill = []
         for i in range(1,7):
@@ -157,7 +174,6 @@ def register():
             ibm_db.bind_param(prep_stmt, 8, e.get('pswd'))
             ibm_db.execute(prep_stmt)
 
-            u = []
             sql =  "SELECT * FROM applicant WHERE email = ?"
             stmt = ibm_db.prepare(conn,sql)
             ibm_db.bind_param(stmt, 1, email )
@@ -254,10 +270,80 @@ def register():
 
 
 def render_picture(data):
-
     render_pic = base64.b64encode(data).decode('ascii') 
     return render_pic
 
+@app.route('/view',methods = ['GET'])
+def viewresume():
+        account = {}
+        sql =  "SELECT * FROM applicant WHERE email = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, 'anaghanambiar157@gmail.com' )
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        pid = account1['PID']
+        account['per'] = account1
+
+        sql =  "SELECT * FROM acd_10 WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        account['10'] = account1
+
+        sql =  "SELECT * FROM acd_12 WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        account['12'] = account1
+
+        sql =  "SELECT * FROM acd_diploma WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        if account1 :
+            account['dip']= account1
+        else:
+            account['dip']= ""
+
+        sql =  "SELECT * FROM acd_ug WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        if account1 :
+            account['ug']= account1
+        else:
+            account['ug']= ""
+
+
+        sql =  "SELECT * FROM acd_pg WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        if account1 :
+            account['pg']= account1
+        else:
+            account['pg']= ""
+
+        sql =  "SELECT * FROM project WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        account['p'] = account1
+
+        sql =  "SELECT * FROM skill WHERE pid = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, pid)
+        ibm_db.execute(stmt)
+        account1 = ibm_db.fetch_assoc(stmt)
+        account['skill'] = account1
+
+        return render_template('View.html', account=account)
 
         
 @app.route('/dashboard',methods = ['GET'])

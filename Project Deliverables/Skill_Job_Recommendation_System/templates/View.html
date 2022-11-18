@@ -1,0 +1,199 @@
+{% extends 'dash_resu.html'%}
+{% block head %}
+<title>View Resume</title>
+<style>
+  .navbar {
+    background-color: #7e0cf5;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+<script>
+function getPDF() {
+  var doc = new jsPDF();
+ 
+  // We'll make our own renderer to skip this editor
+  var specialElementHandlers = {
+    '#getPDF': function(element, renderer){
+      return true;
+    },
+    '.controls': function(element, renderer){
+      return true;
+    }
+  };
+  doc.fromHTML($('.zima').get(0), 15, 15, {
+    'width': 170, 
+    'elementHandlers': specialElementHandlers
+  });
+
+  doc.save('Resume.pdf');
+}
+</script>
+{% endblock %}
+{% include 'navbar.html' %}
+{% block body %}
+<br>
+<div class="container" >
+  <div class="float-right">
+    <button class="btn btn-primary btn-rounded btn-md btn-block" id="getPDF" onclick="getPDF()">Download <i class="fas fa-download"></i></button>
+  </div>
+  <div id="editor"></div>
+  <div class="container zima" id="content">
+    <h2 style="text-align: center;">Resume</h2>
+    
+    <br>
+    <br>
+    <h3>Personal Details</h3>
+    <br>
+    <table class="table table-striped ">
+
+      <tbody>
+        <tr>
+          <th>First Name </th>
+          <td>{{account['per']['F_NAME']}}</td>
+
+        </tr>
+        <tr>
+          <th>Last Name </th>
+          <td>{{account['per']['L_NAME']}}</td>
+
+        </tr>
+        <tr>
+          <th>Date of Birth </th>
+          <td>{{account['per']['DOB']}}</td>
+        </tr>
+
+        <tr>
+          <th>Email </th>
+          <td>{{account['per']['EMAIL']}}</td>
+        </tr>
+
+        <tr>
+          <th>Gender </th>
+          <td>{% if account['per']['GENDER'] == 'f'%}
+            Female
+            {% elif account['per']['GENDER'] == 'm'%}
+            Male
+            {% else %}
+            Non Binary
+            {% endif %}
+            
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <br>
+    <h3>Academic Details</h3>
+    <br>
+    <h3>School</h3>
+    <table class="table table-striped ">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Institution Name</th>
+          <th>Year</th>
+          <th>Results</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>X</th>
+          <td>{{account['10']['S_NAME']}}</td>
+          <td>{{account['10']['MARKS']}}%</td>
+          <td>{{account['10']['YEAR']}}</td>
+        </tr>
+        <tr>
+          <th>XII</th>
+          <td>{{account['12']['S_NAME']}}</td>
+          <td>{{account['12']['MARKS']}}%</td>
+          <td>{{account['12']['YEAR']}}</td>
+        </tr>
+        {% if account['dip'] != "" %}
+        <tr>
+          <th>Diploma</th>
+          <td>{{account['dip']['COURSE_NAME']}}</td>
+          <td>{{account['dip']['MARKS']}}%</td>
+          <td>{{account['dip']['YEAR']}}</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    {% if account['ug'] != "" %}
+    <h3>College</h3>
+    <table class="table table-striped ">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Institution Name</th>
+          <th>Degree</th>
+          <th>Graduating Year</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if account['ug'] != "False" %}
+        <tr>
+          <th>UG</th>
+          <td>{{account['ug']['C_NAME']}}</td>
+          <td>{{account['ug']['DEGREE']}}</td>
+          <td>{{account['ug']['YEAR']}}</td>
+          <td>{{account['ug']['CGPA']}}</td>
+        </tr>
+        {% endif %}
+        {% if account['pg'] != "" %}
+        <tr>
+          <th>PG</th>
+          <td>{{account['pg']['C_NAME']}}</td>
+          <td>{{account['pg']['DEGREE']}}</td>
+          <td>{{account['pg']['YEAR']}}</td>
+          <td>{{account['pg']['CGPA']}}</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    {% endif %}
+
+    <h3>Skillset</h3>
+    <br>
+    <ul class="list-unstyled">
+      <li><i class="fa fa-check-square-o" aria-hidden="true"></i>
+        {{account['skill']['SKILL1']}}</li>
+      <li><i class="fa fa-check-square-o" aria-hidden="true"></i>
+        {{account['skill']['SKILL2']}}</li>
+      <li>{{account['skill']['SKILL3']}}</li>
+      <li>{{account['skill']['SKILL4']}}</li>
+      <li>{{account['skill']['SKILL5']}}</li>
+      <li>{{account['skill']['SKILL6']}}</li>
+    </ul>
+    <h3>Projects</h3>
+    <br>
+    <div class="card">
+      <div class="card-header">
+        Project 1
+      </div>
+      <div class="card-body">
+        <p class="card-text"></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        Project 2
+      </div>
+      <div class="card-body">
+        <p class="card-text"></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        Project 3
+      </div>
+      <div class="card-body">
+        <p class="card-text"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
