@@ -1,6 +1,6 @@
 import hashlib
 from flask import Flask,render_template,request,session
-import ibm_db,random,base64,http.client
+import ibm_db,random,base64,requests
 
 from markupsafe import escape
 import MailboxValidator
@@ -8,14 +8,6 @@ import MailboxValidator
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-app = Flask(__name__)
-con = http.client.HTTPSConnection("linkedin-jobs-search.p.rapidapi.com")
-headers = {
-    'content-type': "application/json",
-    'X-RapidAPI-Key': "e98cf00f43msh5ca08a683bd78a3p1e0daejsn1c838d940ed1",
-    'X-RapidAPI-Host': "linkedin-jobs-search.p.rapidapi.com"
-    }
-s={}
 
 def db_conn():
     try:
@@ -25,7 +17,7 @@ def db_conn():
     else:
         return conn
 
-
+app = Flask(__name__)
 conn = db_conn()
 
 val = random.randint(100000, 999999)
@@ -565,12 +557,21 @@ def dashboard():
 @app.route('/search', methods=['POST','GET'])
 def search():
     if request.method =='POST':
-       s['search'] = request.form['search']
-       payload = "{\r\n    \"search_terms\": \""+s.get('search')+" \",\r\n    \"location\": \"30301\",\r\n    \"page\": \"1\"\r\n}"
-       con.request("POST", "/", payload, headers)
-       res = con.getresponse()
-       data = res.read()
-       return render_template('job_search.html',data=data.decode("utf-8"))
+        s={}
+        s['search'] = request.form['search']
+        url = "https://google-jobs.p.rapidapi.com/"
+
+        querystring = {"keyword":"Software Engineer","location":"India","offset":"0"}
+
+        headers = {
+        	"X-RapidAPI-Key": "a7bfe999d1msh2e21c1da5b65d8bp147712jsn620e1a85c8e9",
+        	"X-RapidAPI-Host": "google-jobs.p.rapidapi.com"
+        }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+       
+        return render_template('job_search.html',data=response.text)
     elif request.method =='GET':
         return render_template('search_page.html',active = "search")
 
