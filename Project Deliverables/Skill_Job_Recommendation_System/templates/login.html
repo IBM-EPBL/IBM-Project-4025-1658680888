@@ -1,59 +1,62 @@
 {% extends 'head_login_signup.html'%}
 {% block head %}
-  <title>Log in</title>
+<title>Log in</title>
 
 {% endblock %}
 {% block body %}
-  <div class="content">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <img src="{{url_for('static', filename = '/images/signin-image.jpg')}}" alt="Image" class="img-fluid" width="350px" height="350px">
-        </div>
-        <div class="col-md-6 contents">
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              
-              <h3>Login</h3>
-              
+<div class="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <img src="{{url_for('static', filename = '/images/signin-image.jpg')}}" alt="Image" class="img-fluid"
+          width="350px" height="350px">
+      </div>
+      <div class="col-md-6 contents">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+
+            <h3>Login</h3>
+
             <form action="{{url_for('login')}}" method="post">
-              
+
               <div class="form-group first">
-                
-                <input type="text" class="form-control" id="username" placeholder="Username or Email ID">
-                
+
+                <input type="text" class="form-control" name="email" placeholder="Email ID">
+
               </div>
               <div class="form-group">
-                
-                <input type="password" class="form-control" id="password" placeholder="Password">
-                
+
+                <input type="password" class="form-control" name="pswd" placeholder="Password">
+
               </div>
               <br>
-              <div class="d-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-                  <input type="checkbox" checked="checked"/>
-                  <div class="control__indicator"></div>
-                </label>
-                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+              {% if message:%}
+              <div class="alert alert-danger">
+                <h6>
+                  {{message}}
+                </h6>
               </div>
+              {% endif %}
               <button type="submit" class="btn btn-block btn-primary"> Login
-            </button>
-
-            
-
-              <span class="d-block text-left my-4 text-muted">&mdash; If New User, then Sign Up with &mdash;</span>
-    
-              <button type="submit" class="btn btn-block btn-primary" href="signup.html"> Sign-Up
               </button>
             </form>
-            </div>
-          </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  </div>
-  {% endblock %}
+            <form action="{{url_for('signup')}}" method="get">
+            <span class="d-block text-left my-4 text-muted">&mdash; If New User, then Sign Up with &mdash;</span>
 
-  
+            <button type="submit" class="btn btn-block btn-primary" > Sign-Up </button>
+          </form>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+
+  </div>
+</div>
+</div>
+{% endblock %}

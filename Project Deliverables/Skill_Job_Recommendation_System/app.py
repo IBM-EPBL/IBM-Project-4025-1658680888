@@ -1,8 +1,6 @@
-from passlib.hash import sha256_crypt
-from flask import Flask,render_template,request,session,make_response
-import ibm_db,random,base64,io
-from PIL import Image
-
+import hashlib
+from flask import Flask,render_template,request,session
+import ibm_db,random,base64
 
 
 from markupsafe import escape
@@ -10,7 +8,6 @@ import MailboxValidator
 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
 
 
 def db_conn():
@@ -34,7 +31,7 @@ def signup():
     if request.method == 'POST':
         e['email'] = request.form['email']
         e['mobile'] = str(request.form['mobile'])
-        e['pswd'] = sha256_crypt.encrypt(request.form['pswd'])
+        e['pswd'] = hashlib.md5(request.form['pswd'].encode()).hexdigest()
 
         sql =  "SELECT * FROM applicant WHERE email = ?"
         stmt = ibm_db.prepare(conn,sql)
@@ -48,7 +45,7 @@ def signup():
             a = verify_mail()
             if a == "True":
                 session['email'] = request.form['email']
-                session['mobile'] = request.form['mobile']
+                session.permanent = True
                 skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
                 return render_template('Resume.html', required = e['email'],skills=skills)
             elif a == "False":
@@ -84,8 +81,23 @@ def verify_mail():
 @app.route('/login',methods = ['POST','GET'])
 def login():
     if request.method == 'POST':
+        email = request.form['email']
+        pswd = hashlib.md5(request.form['pswd'].encode()).hexdigest()
+
+        sql =  "SELECT * FROM applicant WHERE email = ? "
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, email )
+        ibm_db.execute(stmt)
+        account = ibm_db.fetch_assoc(stmt)
         
-        return render_template('dashboard.html')
+        if account:
+            if pswd == account['PASSWORD']:
+                session['email'] = email
+                return render_template('dashboard.html')
+            else:
+                return render_template ('login.html', message = "An account with this email id and password dosen't exist.")
+        else:
+            return render_template ('login.html', message = "An account with this email id and password dosen't exist.")
 
     elif request.method == 'GET':
         return render_template('login.html')
@@ -166,7 +178,7 @@ def register():
         account = ibm_db.fetch_assoc(stmt)
         
         if account:
-            return render_template('dashboard.html')
+            return render_template('login.html')
 
         else:
 
@@ -178,7 +190,7 @@ def register():
             ibm_db.bind_param(prep_stmt, 4, gender)
             ibm_db.bind_param(prep_stmt, 5, email)
             ibm_db.bind_param(prep_stmt, 6, render_file)
-            ibm_db.bind_param(prep_stmt, 7, session.get('mobile'))
+            ibm_db.bind_param(prep_stmt, 7, e.get('mobile'))
             ibm_db.bind_param(prep_stmt, 8, e.get('pswd'))
             ibm_db.execute(prep_stmt)
 
@@ -282,86 +294,270 @@ def render_picture(data):
     return render_pic
 
 
+def getaccount(email):
+    account = {}
+    sql =  "SELECT * FROM applicant WHERE email = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, email )
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+
+    pid = account1['PID']
+
+    account['per'] = account1
+    
+    sql =  "SELECT * FROM acd_10 WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    account['10'] = account1
+
+    sql =  "SELECT * FROM acd_12 WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    account['12'] = account1
+
+    sql =  "SELECT * FROM acd_diploma WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    if account1 :
+        account['dip']= account1
+    else:
+        account['dip']= ""
+
+    sql =  "SELECT * FROM acd_ug WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    if account1 :
+        account['ug']= account1
+    else:
+        account['ug']= ""
+
+    sql =  "SELECT * FROM acd_pg WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    if account1 :
+        account['pg']= account1
+    else:
+        account['pg']= ""
+
+    sql =  "SELECT * FROM project WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    account['p'] = account1
+
+    sql =  "SELECT * FROM skill WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    account['skill'] = account1
+
+    sql =  "SELECT * FROM top3_comp WHERE pid = ?"
+    stmt = ibm_db.prepare(conn,sql)
+    ibm_db.bind_param(stmt, 1, pid)
+    ibm_db.execute(stmt)
+    account1 = ibm_db.fetch_assoc(stmt)
+    account['comp'] = account1
+
+    return account
 
 @app.route('/view', methods = ['GET'])
 def viewresume():
-        account = {}
-        sql =  "SELECT * FROM applicant WHERE email = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, 'anaghanambiar157@gmail.com' )
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        pid = account1['PID']
-        account['per'] = account1
-
-        sql =  "SELECT * FROM acd_10 WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        account['10'] = account1
-
-        sql =  "SELECT * FROM acd_12 WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        account['12'] = account1
-
-        sql =  "SELECT * FROM acd_diploma WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        if account1 :
-            account['dip']= account1
-        else:
-            account['dip']= ""
-
-        sql =  "SELECT * FROM acd_ug WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        if account1 :
-            account['ug']= account1
-        else:
-            account['ug']= ""
-
-
-        sql =  "SELECT * FROM acd_pg WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        if account1 :
-            account['pg']= account1
-        else:
-            account['pg']= ""
-
-        sql =  "SELECT * FROM project WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        account['p'] = account1
-
-        sql =  "SELECT * FROM skill WHERE pid = ?"
-        stmt = ibm_db.prepare(conn,sql)
-        ibm_db.bind_param(stmt, 1, pid)
-        ibm_db.execute(stmt)
-        account1 = ibm_db.fetch_assoc(stmt)
-        account['skill'] = account1
-        
+        account = getaccount(session.get('email'))
         return render_template('View.html', account=account)
 
+@app.route('/edit',methods = ['POST','GET'])
+def edit():
+    if request.method == 'POST':
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        dob = request.form['dob']
+        gender = request.form['gender']
+
+        c10 = {}
+        c10['school'] = request.form['10school']
+        c10['year'] = request.form ['10year']
+        c10['marks'] = request.form['10marks']
+
+        c12 = {}
+        c12['school'] = request.form['12school']
+        c12['year'] = request.form ['12year']
+        c12['marks'] = request.form['12marks']
+
+        d = {}
+        d['course'] = request.form['dcourse']
+        d['year'] = request.form ['dyear']
+        d['marks'] = request.form['dmarks']
+
+        ug = {}
+        ug['clg'] = request.form['ugcollege']
+        ug['year'] = request.form ['ugyear']
+        ug['degree'] = request.form['ugdegree']
+        ug['cgpa'] = request.form['ugcgpa']
+
+        pg = {}
+        pg['clg'] = request.form['pgcollege']
+        pg['year'] = request.form ['pgyear']
+        pg['degree'] = request.form['pgdegree']
+        pg['cgpa'] = request.form['pgcgpa']
+
+        skill = []
+        for i in range(1,7):
+            var = 'skill'+str(i)
+            if request.form[var] != 'Choose a Skill':
+                skill.append(request.form[var])
+            else:
+                skill.append("")
+
+        proj = []
+        for i in range(1,4):
+            var = 'pj'+str(i)
+            if request.form[var] != 'NA'.lower():
+                proj.append(request.form[var])
+            else:
+                proj.append("")
+
+        comp = []
+        for i in range(1,4):
+            var = 'company'+str(i)
+            if request.form[var] != '':
+                comp.append(request.form[var])
+            else:
+                comp.append("")
+
+
+        sql =  "SELECT * FROM applicant WHERE email = ?"
+        stmt = ibm_db.prepare(conn,sql)
+        ibm_db.bind_param(stmt, 1, session.get('email') )
+        ibm_db.execute(stmt)
+        account = ibm_db.fetch_assoc(stmt)
+        
+        if account:
+
+            pid = account['PID']
+            insert_sql = "UPDATE applicant SET f_name = ? ,l_name = ?,dob = ?  WHERE pid = ?"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, firstname )
+            ibm_db.bind_param(prep_stmt, 2, lastname)
+            ibm_db.bind_param(prep_stmt, 3, dob)
+            ibm_db.bind_param(prep_stmt, 4, pid)
+            ibm_db.execute(prep_stmt)
+
+
+
+            insert_sql = "UPDATE acd_10 SET s_name=?, marks = ?, year=? WHERE pid = ?"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, c10.get('school'))
+            ibm_db.bind_param(prep_stmt, 2, c10.get('year'))    
+            ibm_db.bind_param(prep_stmt, 3, c10.get('marks'))
+            ibm_db.bind_param(prep_stmt, 4, pid )
+            ibm_db.execute(prep_stmt)
+
+            insert_sql ="UPDATE acd_12 SET s_name=?, marks = ?, year=? WHERE pid = ?"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, c12.get('school'))
+            ibm_db.bind_param(prep_stmt, 2, c12.get('marks'))    
+            ibm_db.bind_param(prep_stmt, 3, c12.get('year'))
+            ibm_db.bind_param(prep_stmt, 4, pid )
+            ibm_db.execute(prep_stmt)
+
+            if d.get('course').lower() != 'NA'.lower():
+                insert_sql = "UPDATE acd_diploma SET course_name=?, marks = ?, year=? WHERE pid = ?"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                
+                ibm_db.bind_param(prep_stmt, 1, d.get('course'))
+                ibm_db.bind_param(prep_stmt, 2, d.get('marks') )    
+                ibm_db.bind_param(prep_stmt, 3, d.get('year') )
+                ibm_db.bind_param(prep_stmt, 4, pid )
+                ibm_db.execute(prep_stmt)
+
+            if ug.get('clg').lower() != 'NA'.lower():
+                insert_sql = "UPDATE acd_ug SET c_name=?, cgpa = ?, year=?, degree=? WHERE pid = ?"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                
+                ibm_db.bind_param(prep_stmt, 1, ug.get('clg'))
+                ibm_db.bind_param(prep_stmt, 2, ug.get('cgpa'))
+                ibm_db.bind_param(prep_stmt, 3, ug.get('year'))    
+                ibm_db.bind_param(prep_stmt, 4, ug.get('degree'))
+                ibm_db.bind_param(prep_stmt, 5, pid )
+                ibm_db.execute(prep_stmt)
+
+            if pg.get('clg').lower() != 'NA'.lower():
+                insert_sql = "UPDATE acd_pg SET c_name=?, cgpa = ?, year=?, degree=? WHERE pid = ?"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                
+                ibm_db.bind_param(prep_stmt, 1, pg.get('clg'))
+                ibm_db.bind_param(prep_stmt, 2, pg.get('cgpa'))    
+                ibm_db.bind_param(prep_stmt, 3, pg.get('degree'))
+                ibm_db.bind_param(prep_stmt, 4, pg.get('year'))
+                ibm_db.bind_param(prep_stmt, 5, pid )
+                ibm_db.execute(prep_stmt)
+
+            if proj[0].lower() != 'NA'.lower():
+                insert_sql = "UPDATE project SET proj1=?, proj2 = ?, proj3=? WHERE pid = ?"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                
+                ibm_db.bind_param(prep_stmt, 1, proj[0])
+                ibm_db.bind_param(prep_stmt, 2, proj[1])    
+                ibm_db.bind_param(prep_stmt, 3, proj[2])
+                ibm_db.bind_param(prep_stmt, 4, pid )
+                ibm_db.execute(prep_stmt)
+
+            if skill[0].lower() != 'NA'.lower():
+                insert_sql = "UPDATE skill SET skill1=?, skill2 = ?, skill3=?, skill4=?, skill5 = ?, skill6=? WHERE pid = ?"
+                prep_stmt = ibm_db.prepare(conn, insert_sql)
+                
+                ibm_db.bind_param(prep_stmt, 1, skill[0])
+                ibm_db.bind_param(prep_stmt, 2, skill[1])    
+                ibm_db.bind_param(prep_stmt, 3, skill[2])
+                ibm_db.bind_param(prep_stmt, 4, skill[3])
+                ibm_db.bind_param(prep_stmt, 5, skill[4])    
+                ibm_db.bind_param(prep_stmt, 6, skill[5])
+                ibm_db.bind_param(prep_stmt, 7, pid )
+                ibm_db.execute(prep_stmt)
+
+            insert_sql = "UPDATE top3_comp SET comp1=?, comp2=?, comp3=? WHERE pid = ?"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+           
+            ibm_db.bind_param(prep_stmt, 1, comp[0])
+            ibm_db.bind_param(prep_stmt, 2, comp[1])    
+            ibm_db.bind_param(prep_stmt, 3, comp[2])
+            ibm_db.bind_param(prep_stmt, 4, pid )
+            ibm_db.execute(prep_stmt)
+
+        return render_template('dashboard.html')
+
+    elif request.method == 'GET':
+        if session.get('email') == 'None':
+            return render_template('signup.html')
+        else:
+            account = getaccount(session.get('email'))
+            skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
+            return render_template('Edit.html', account=account, skills=skills)
         
 @app.route('/dashboard',methods = ['GET'])
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/logout',methods = ['GET'])
+def logout():
+    session.pop('email',None)
+    return render_template('login.html')
 
-app.add_url_rule('/dashboard', dashboard, dashboard) 
+
+
 
 
 

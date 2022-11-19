@@ -3,9 +3,12 @@
 <title>Resume</title>
 <style>
   body{
-    background-color: #7e0cf5;
+    background-color: #dbcbed;
     background-repeat: no-repeat; 
     background-size: cover;
+  }
+  .navbar {
+    background-color: #7e0cf5;
   }
 </style>
 <script>
@@ -23,12 +26,13 @@
         }
 </script>
 {% endblock %}
+{% include 'navbar.html' %}
 {% block body %}
 
  <div class="container">
 
     <div class="py-5">
-      <form class="bg-light" action="{{url_for('register')}}" method="post" enctype="multipart/form-data">
+      <form class="bg-light" action="{{url_for('edit')}}" method="post" >
         <br><br>
         <h1 style="text-align: center;">Resume</h1>
         <br><br>
@@ -39,23 +43,13 @@
           </lable>
           <br><br>
           <div>
-            <div class="mb-4 d-flex justify-content-center">
-              <img  id="blah" src="{{url_for('static', filename = '/images/Profile.jpg')}}" alt="example placeholder"
-                style="width: 200px;" />
-            </div>
-            <div class="d-flex justify-content-center">
-              
-                <input onchange="readURL(this);" class="btn btn-dark" type="file" name="photo" id="apply" accept="image/*">              </div>
-            
-          </div>
-
           <br>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
 
                 <label>First name:</label>
-                <input type="text" class="form-control" name="firstname" required>
+                <input type="text" class="form-control" name="firstname" value="{{account['per']['F_NAME']}}" required>
               </div>
 
             </div>
@@ -63,7 +57,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Last name:</label>
-                <input type="text" class="form-control" name="lastname" required>
+                <input type="text" class="form-control" name="lastname" value="{{account['per']['L_NAME']}}"  required>
               </div>
             </div>
           </div>
@@ -74,14 +68,14 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Date of Birth:</label>
-                <input type="date" class="form-control " name="dob" required>
+                <input type="date" class="form-control " name="dob" value="{{account['per']['DOB']}}" required>
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group">
                 <label>Email:</label>
-                <input type="email" class="form-control" name="email" value={{required}} required>
+                <input type="email" class="form-control" name="email" value="{{session['email']}}" disabled>
               </div>
             </div>
           </div>
@@ -95,24 +89,29 @@
           <label>Gender:</label>
 
           <div class="row">
-
+            {% if account['per']['GENDER'] == 'm' %}
             <div class="col-md-4">
               <div class="form-check">
-                <input type="radio" class="form-check-input" name="gender" value="m" required> <label>Male</label>
+                <input type="radio" class="form-check-input" name="gender" value="m" checked required> <label>Male</label>
               </div>
             </div>
+            {% endif %}
+            {% if account['per']['GENDER'] == 'f' %}
             <div class="col-md-4">
               <div class="form-check">
 
-                <input type="radio" class="form-check-input" name="gender" value="f"> <label>Female</label>
+                <input type="radio" class="form-check-input" name="gender" value="f" checked> <label>Female</label>
               </div>
             </div>
+            {% endif %}
+            {% if account['per']['GENDER'] == 'nb' %}
             <div class=col-md-4>
               <div class="form-check">
 
-                <input type="radio" class="form-check-input" name="gender" value="nb"><label>Not like to mention</label>
+                <input type="radio" class="form-check-input" name="gender" value="nb" checked><label>Not like to mention</label>
               </div>
             </div>
+            {% endif %}
           </div>
 
 
@@ -137,21 +136,21 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>School Name:</label>
-                <input type="text" class="form-control" name="10school" required>
+                <input type="text" class="form-control" name="10school" value="{{account['10']['S_NAME']}}" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="10year" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="10year" value="{{account['10']['YEAR']}}" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Percentage:</label>
-                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="10marks" required>
+                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="10marks" value="{{account['10']['MARKS']}}" required>
               </div>
             </div>
           </div>
@@ -164,21 +163,21 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>School Name:</label>
-                <input type="text" class="form-control" name="12school" required>
+                <input type="text" class="form-control" name="12school" value="{{account['12']['S_NAME']}}" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="12year"  required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="12year" value="{{account['12']['YEAR']}}"  required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Percentage:</label>
-                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="12marks" required>
+                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="12marks" value="{{account['12']['MARKS']}}" required>
               </div>
             </div>
           </div>
@@ -192,21 +191,21 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Course Name:</label>
-                <input type="text" class="form-control" name="dcourse" required>
+                <input type="text" class="form-control" name="dcourse" value="{{account['dip']['COURSE_NAME']}}" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="dyear" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="dyear" value="{{account['dip']['YEAR']}}" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
                 <label>Percentage:</label>
-                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="dmarks" required>
+                <input type="number" placeholder="%" min="0" max="100" step=".01" class="form-control" name="dmarks" value="{{account['dip']['MARKS']}}" required>
               </div>
             </div>
           </div>
@@ -219,28 +218,28 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>College Name:</label>
-                <input type="text" class="form-control" name="ugcollege" required>
+                <input type="text" class="form-control" name="ugcollege" value="{{account['ug']['C_NAME']}}" required>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="ugyear" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="ugyear" value="{{account['ug']['YEAR']}}" required>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-group">
                 <label>Degree:</label>
-                <input type="text" class="form-control" name="ugdegree" required>
+                <input type="text" class="form-control" name="ugdegree" value="{{account['ug']['DEGREE']}}" required>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-group">
                 <label>CGPA:</label>
-                <input type="number" placeholder="CGPA" min="0" max="10" step=".01" class="form-control" name="ugcgpa" required>
+                <input type="number" placeholder="CGPA" min="0" max="10" step=".01" class="form-control" name="ugcgpa" value="{{account['ug']['CGPA']}}" required>
               </div>
             </div>
           </div>
@@ -253,28 +252,28 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>College Name:</label>
-                <input type="text" class="form-control" name="pgcollege" required>
+                <input type="text" class="form-control" name="pgcollege" value="{{account['pg']['C_NAME']}}" required>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-group">
                 <label>Year:</label>
-                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="pgyear" required>
+                <input type="number" placeholder="YYYY" min="1947" max="2040" class="form-control" name="pgyear" value="{{account['pg']['YEAR']}}" required>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-group">
                 <label>Degree:</label>
-                <input type="text" class="form-control" name="pgdegree" required>
+                <input type="text" class="form-control" name="pgdegree" value="{{account['pg']['DEGREE']}}" required>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-group">
                 <label>CGPA:</label>
-                <input type="number" placeholder="CGPA" min="0" max="10" step=".01" class="form-control" name="pgcgpa" required>
+                <input type="number" placeholder="CGPA" min="0" max="10" step=".01" class="form-control" name="pgcgpa" value="{{account['pg']['CGPA']}}" required>
               </div>
             </div>
           </div>
@@ -297,7 +296,11 @@
                   <label>Skill 1:</label>
                   <select name="skill1" class="form-control" required>
                     {% for s in skills %}
-                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% if s == account['skill']['SKILL1']%}
+                      <option value="{{s}}" SELECTED>{{s}}</option>
+                    {% else %}
+                    <option value="{{s}}">{{s}}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -308,7 +311,11 @@
                   <label>Skill 2:</label>
                   <select name="skill2" class="form-control" required>
                     {% for s in skills %}
-                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% if s == account['skill']['SKILL2']%}
+                      <option value="{{s}}" SELECTED>{{s}}</option>
+                    {% else %}
+                    <option value="{{s}}">{{s}}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -319,7 +326,11 @@
                   <label>Skill 3:</label>
                   <select name="skill3" class="form-control" required>
                     {% for s in skills %}
-                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% if s == account['skill']['SKILL3']%}
+                      <option value="{{s}}" SELECTED>{{s}}</option>
+                    {% else %}
+                    <option value="{{s}}">{{s}}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -332,7 +343,11 @@
                   <label>Skill 4:</label>
                   <select name="skill4" class="form-control" >
                     {% for s in skills %}
-                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% if s == account['skill']['SKILL4']%}
+                      <option value="{{s}}" SELECTED>{{s}}</option>
+                    {% else %}
+                    <option value="{{s}}">{{s}}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -343,7 +358,11 @@
                   <label>Skill 5:</label>
                   <select name="skill5" class="form-control" >
                     {% for s in skills %}
-                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% if s == account['skill']['SKILL5']%}
+                      <option value="{{s}}" SELECTED>{{s}}</option>
+                    {% else %}
+                    <option value="{{s}}">{{s}}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -354,7 +373,11 @@
                   <label>Skill 6:</label>
                   <select name="skill6" class="form-control" >
                     {% for s in skills %}
-                    <option value="{{s}}" SELECTED>{{s}}</option>"
+                    {% if s == account['skill']['SKILL6']%}
+                      <option value="{{s}}" SELECTED>{{s}}</option>
+                    {% else %}
+                    <option value="{{s}}">{{s}}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
@@ -368,18 +391,18 @@
 
             <div class="form-group">
               <label>Project 1:</label>
-              <textarea class="form-control" rows="4" name="pj1" required></textarea>
+              <textarea class="form-control" rows="4" name="pj1"  required>{{account['p']['PROJ1']}}</textarea>
 
             </div>
 
             <div class="form-group">
               <label>Project 2:</label>
-              <textarea class="form-control" rows="4" name="pj2"></textarea>
+              <textarea class="form-control" rows="4" name="pj2" >{{account['p']['PROJ2']}}</textarea>
             </div>
 
             <div class="form-group">
               <label>Project 3:</label>
-              <textarea class="form-control" rows="4" name="pj3"></textarea>
+              <textarea class="form-control" rows="4" name="pj3" >{{account['p']['PROJ3']}}</textarea>
             </div>
 
 
@@ -391,21 +414,21 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Company 1:</label>
-                  <input type="text" class="form-control" name="company1" required>
+                  <input type="text" class="form-control" name="company1" value="{{account['comp']['COMP1']}}" required>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Company 2:</label>
-                  <input type="text" class="form-control" name="company2" required>
+                  <input type="text" class="form-control" name="company2" value="{{account['comp']['COMP2']}}" required>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Company 3:</label>
-                  <input type="text" class="form-control" name="company3" required>
+                  <input type="text" class="form-control" name="company3" value="{{account['comp']['COMP3']}}" required>
                 </div>
               </div>
             </div>
