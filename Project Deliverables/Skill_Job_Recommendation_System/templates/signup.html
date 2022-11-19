@@ -1,7 +1,7 @@
 {% extends 'dash_resu.html'%}
 
 {% block head %}
-{% include 'head_login_signup.html'%}
+{% include 'head_login_signup.html' %}
 <title>Sign-Up</title>
 <style>
   input[type=number]::-webkit-inner-spin-button,
@@ -20,10 +20,13 @@
     background-color: #7e0cf5;
   }
 
+  .btn:hover {
+    background-color: #750fe1;
+  }
+
 </style>
 {% endblock %}
 {% include 'navbar2.html' %}
-
 {% block body %}
 <div class="content">
   <div class="container">
