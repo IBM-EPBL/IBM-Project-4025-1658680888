@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style> 
+input[type=text] {
+  width: 500px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('searchicon3.jpg');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+.container{
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+
+
+}
+body{
+  background-image: url('jobbg3.png');
+  background-repeat: no-repeat;
+background-size:cover;
+
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+
+<form action="{{url_for('search')}}" method='POST'>
+  <input type="text" name="search" placeholder="Search for Jobs....">
+</form>
+</div>
+</body>
+</html>
+
