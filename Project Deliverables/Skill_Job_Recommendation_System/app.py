@@ -8,6 +8,15 @@ import MailboxValidator
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+app = Flask(__name__)
+con = http.client.HTTPSConnection("linkedin-jobs-search.p.rapidapi.com")
+headers = {
+    'content-type': "application/json",
+    'X-RapidAPI-Key': "e98cf00f43msh5ca08a683bd78a3p1e0daejsn1c838d940ed1",
+    'X-RapidAPI-Host': "linkedin-jobs-search.p.rapidapi.com"
+    }
+s={}
+
 def db_conn():
     try:
         conn = ibm_db.connect("DATABASE=bludb;HOSTNAME=b1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud;PORT=32304;SECURITY=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=khc44923;PWD=VMdkxmMxV1Z30kOH",'','')
@@ -16,8 +25,9 @@ def db_conn():
     else:
         return conn
 
+
 conn = db_conn()
-app = Flask(__name__)
+
 val = random.randint(100000, 999999)
 app.secret_key = str(val) 
 
@@ -552,9 +562,17 @@ def edit():
 def dashboard():
     return render_template('dashboard.html',active = "home")
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['POST','GET'])
 def search():
-    return render_template('dashboard.html',active = "search")
+    if request.method =='POST':
+       s['search'] = request.form['search']
+       payload = "{\r\n    \"search_terms\": \""+s.get('search')+" \",\r\n    \"location\": \"30301\",\r\n    \"page\": \"1\"\r\n}"
+       con.request("POST", "/", payload, headers)
+       res = con.getresponse()
+       data = res.read()
+       return render_template('job_search.html',data=data.decode("utf-8"))
+    elif request.method =='GET':
+        return render_template('search_page.html',active = "search")
 
 @app.route('/logout',methods = ['GET'])
 def logout():

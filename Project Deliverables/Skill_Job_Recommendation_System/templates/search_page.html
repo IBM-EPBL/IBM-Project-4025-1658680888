@@ -1,6 +1,5 @@
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends 'dash_resu.html'%}
+{% block head %}
 <style> 
 input[type=text] {
   width: 500px;
@@ -27,8 +26,6 @@ input[type=text]:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-
 
 }
 body{
@@ -37,9 +34,13 @@ body{
 background-size:cover;
 
 }
+.navbar {
+    background-color: #7e0cf5;
+}
 </style>
-</head>
-<body>
+{% endblock %}
+{% include 'navbar.html' %}
+{% block body %}
 <div class="container">
 
 
@@ -47,6 +48,5 @@ background-size:cover;
   <input type="text" name="search" placeholder="Search for Jobs....">
 </form>
 </div>
-</body>
-</html>
+{% endblock %}
 
