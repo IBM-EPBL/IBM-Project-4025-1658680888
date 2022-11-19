@@ -293,7 +293,7 @@ def render_picture(data):
 
 
 def getaccount(email):
-    
+
     account = {}
 
     sql =  "SELECT * FROM applicant WHERE email = ?"
@@ -454,7 +454,7 @@ def edit():
             ibm_db.bind_param(prep_stmt, 2, lastname)
             ibm_db.bind_param(prep_stmt, 3, dob)
             ibm_db.bind_param(prep_stmt, 4, pid)
-            ibm_db.execute(prep_stmt)
+            ibm_db.exec_immediate(prep_stmt)
 
 
 
@@ -464,7 +464,7 @@ def edit():
             ibm_db.bind_param(prep_stmt, 2, c10.get('year'))    
             ibm_db.bind_param(prep_stmt, 3, c10.get('marks'))
             ibm_db.bind_param(prep_stmt, 4, pid )
-            ibm_db.execute(prep_stmt)
+            ibm_db.exec_immediate(prep_stmt)
 
             insert_sql ="UPDATE acd_12 SET s_name=?, marks = ?, year=? WHERE pid = ?"
             prep_stmt = ibm_db.prepare(conn, insert_sql)
@@ -472,7 +472,7 @@ def edit():
             ibm_db.bind_param(prep_stmt, 2, c12.get('marks'))    
             ibm_db.bind_param(prep_stmt, 3, c12.get('year'))
             ibm_db.bind_param(prep_stmt, 4, pid )
-            ibm_db.execute(prep_stmt)
+            ibm_db.exec_immediate(prep_stmt)
 
             if d.get('course').lower() != 'NA'.lower():
                 insert_sql = "UPDATE acd_diploma SET course_name=?, marks = ?, year=? WHERE pid = ?"
@@ -482,7 +482,7 @@ def edit():
                 ibm_db.bind_param(prep_stmt, 2, d.get('marks') )    
                 ibm_db.bind_param(prep_stmt, 3, d.get('year') )
                 ibm_db.bind_param(prep_stmt, 4, pid )
-                ibm_db.execute(prep_stmt)
+                ibm_db.exec_immediate(prep_stmt)
 
             if ug.get('clg').lower() != 'NA'.lower():
                 insert_sql = "UPDATE acd_ug SET c_name=?, cgpa = ?, year=?, degree=? WHERE pid = ?"
@@ -493,7 +493,7 @@ def edit():
                 ibm_db.bind_param(prep_stmt, 3, ug.get('year'))    
                 ibm_db.bind_param(prep_stmt, 4, ug.get('degree'))
                 ibm_db.bind_param(prep_stmt, 5, pid )
-                ibm_db.execute(prep_stmt)
+                ibm_db.exec_immediate(prep_stmt)
 
             if pg.get('clg').lower() != 'NA'.lower():
                 insert_sql = "UPDATE acd_pg SET c_name=?, cgpa = ?, year=?, degree=? WHERE pid = ?"
@@ -504,7 +504,7 @@ def edit():
                 ibm_db.bind_param(prep_stmt, 3, pg.get('degree'))
                 ibm_db.bind_param(prep_stmt, 4, pg.get('year'))
                 ibm_db.bind_param(prep_stmt, 5, pid )
-                ibm_db.execute(prep_stmt)
+                ibm_db.exec_immediate(prep_stmt)
 
             if proj[0].lower() != 'NA'.lower():
                 insert_sql = "UPDATE project SET proj1=?, proj2 = ?, proj3=? WHERE pid = ?"
@@ -514,7 +514,7 @@ def edit():
                 ibm_db.bind_param(prep_stmt, 2, proj[1])    
                 ibm_db.bind_param(prep_stmt, 3, proj[2])
                 ibm_db.bind_param(prep_stmt, 4, pid )
-                ibm_db.execute(prep_stmt)
+                ibm_db.exec_immediate(prep_stmt)
 
             if skill[0].lower() != 'NA'.lower():
                 insert_sql = "UPDATE skill SET skill1=?, skill2 = ?, skill3=?, skill4=?, skill5 = ?, skill6=? WHERE pid = ?"
@@ -527,7 +527,7 @@ def edit():
                 ibm_db.bind_param(prep_stmt, 5, skill[4])    
                 ibm_db.bind_param(prep_stmt, 6, skill[5])
                 ibm_db.bind_param(prep_stmt, 7, pid )
-                ibm_db.execute(prep_stmt)
+                ibm_db.exec_immediate(prep_stmt)
 
             insert_sql = "UPDATE top3_comp SET comp1=?, comp2=?, comp3=? WHERE pid = ?"
             prep_stmt = ibm_db.prepare(conn, insert_sql)
@@ -536,7 +536,7 @@ def edit():
             ibm_db.bind_param(prep_stmt, 2, comp[1])    
             ibm_db.bind_param(prep_stmt, 3, comp[2])
             ibm_db.bind_param(prep_stmt, 4, pid )
-            ibm_db.execute(prep_stmt)
+            ibm_db.exec_immediate(prep_stmt)
 
         return render_template('dashboard.html', active = "home")
 
