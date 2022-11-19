@@ -1,8 +1,17 @@
-{% extends 'head_login_signup.html'%}
-{% block head %}
-<title>Log in</title>
+{% extends 'dash_resu.html'%}
 
+{% block head %}
+{% include 'head_login_signup.html'%}
+<title>Log in</title>
+<style>
+   .navbar,.btn {
+    background-color: #7e0cf5;
+  }
+
+</style>
 {% endblock %}
+{% include 'navbar2.html' %}
+
 {% block body %}
 <div class="content">
   <div class="container">
@@ -37,13 +46,13 @@
                 </h6>
               </div>
               {% endif %}
-              <button type="submit" class="btn btn-block btn-primary"> Login
+              <button type="submit" class="btn btn-block text-white"> Login
               </button>
             </form>
             <form action="{{url_for('signup')}}" method="get">
             <span class="d-block text-left my-4 text-muted">&mdash; If New User, then Sign Up with &mdash;</span>
 
-            <button type="submit" class="btn btn-block btn-primary" > Sign-Up </button>
+            <button type="submit" class="btn btn-block text-white" > Sign-Up </button>
           </form>
           </div>
         </div>

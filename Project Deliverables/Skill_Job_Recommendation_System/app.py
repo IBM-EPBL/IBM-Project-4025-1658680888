@@ -38,7 +38,7 @@ def signup():
         account = ibm_db.fetch_assoc(stmt)
         
         if account:
-            return render_template('signup.html', message = 'This email already has an account')
+            return render_template('signup.html', message = 'This email already has an account', active = 'signup')
         else:
             a = verify_mail()
             if a == "True":
@@ -48,10 +48,10 @@ def signup():
                 return render_template('Resume.html', required = e['email'],skills=skills)
             elif a == "False":
                 message = 'Error in email validation'
-                return render_template('signup.html', message=message )
+                return render_template('signup.html', message=message, active = 'signup' )
     
     elif request.method == 'GET':
-        return render_template('signup.html')
+        return render_template('signup.html', active = 'signup')
 
 
 
@@ -93,12 +93,12 @@ def login():
                 session['email'] = email
                 return render_template('dashboard.html',active = "home")
             else:
-                return render_template ('login.html', message = "An account with this email id and password dosen't exist.")
+                return render_template ('login.html', message = "An account with this email id and password dosen't exist.", active = 'login')
         else:
-            return render_template ('login.html', message = "An account with this email id and password dosen't exist.")
+            return render_template ('login.html', message = "An account with this email id and password dosen't exist.",active = 'login')
 
     elif request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html',active = 'login')
 
 
 @app.route('/register',methods = ['POST'])
@@ -176,7 +176,7 @@ def register():
         account = ibm_db.fetch_assoc(stmt)
         
         if account:
-            return render_template('login.html')
+            return render_template('login.html',active = 'login')
 
         else:
 
@@ -281,7 +281,7 @@ def register():
                 return render_template('dashboard.html',active = "home")
     elif request.method == 'GET':
         if session.get('email') == 'None':
-                return render_template('signup.html')
+                return render_template('signup.html',active = 'signup')
         else:
             skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
             return render_template('Resume.html', required = session.get('email') ,skills=skills)
@@ -559,7 +559,7 @@ def search():
 @app.route('/logout',methods = ['GET'])
 def logout():
     session.pop('email',None)
-    return render_template('login.html')
+    return render_template('login.html', active = 'login')
 
 
 

@@ -1,5 +1,7 @@
-{% extends 'head_login_signup.html'%}
+{% extends 'dash_resu.html'%}
+
 {% block head %}
+{% include 'head_login_signup.html'%}
 <title>Sign-Up</title>
 <style>
   input[type=number]::-webkit-inner-spin-button,
@@ -13,8 +15,15 @@
     height: 30px;
     padding: 0 5px;
   }
+
+  .navbar,.btn {
+    background-color: #7e0cf5;
+  }
+
 </style>
 {% endblock %}
+{% include 'navbar2.html' %}
+
 {% block body %}
 <div class="content">
   <div class="container">
@@ -32,15 +41,15 @@
             <form action="{{url_for('signup')}}" method="post">
 
               <div class="form-group first">
-                <input type="email" class="form-control" name="email" placeholder="Email ID">
+                <input type="email" class="form-control" name="email" placeholder="Email ID" required>
               </div>
 
               <div class="form-group ">
-                <input type="number" class="form-control" name="mobile" placeholder="Mobile Number">
+                <input type="number" class="form-control" name="mobile" placeholder="Mobile Number" required>
               </div>
 
               <div class="form-group last mb-4">
-                <input type="password" class="form-control" name="pswd" placeholder="Password">
+                <input type="password" class="form-control" name="pswd" placeholder="Password" required>
               </div>
 
 
@@ -54,7 +63,7 @@
                 </div>
               {% endif %}
               
-              <button type="submit" class="btn btn-block btn-primary"> Submit
+              <button type="submit" class="btn btn-block text-white"> Submit
               </button>
             </form>
           </div>
