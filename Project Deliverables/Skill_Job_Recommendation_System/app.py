@@ -2,13 +2,11 @@ import hashlib
 from flask import Flask,render_template,request,session
 import ibm_db,random,base64
 
-
 from markupsafe import escape
 import MailboxValidator
 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
 
 def db_conn():
     try:
@@ -93,7 +91,7 @@ def login():
         if account:
             if pswd == account['PASSWORD']:
                 session['email'] = email
-                return render_template('dashboard.html')
+                return render_template('dashboard.html',active = "home")
             else:
                 return render_template ('login.html', message = "An account with this email id and password dosen't exist.")
         else:
@@ -280,7 +278,7 @@ def register():
                 ibm_db.bind_param(prep_stmt, 4, comp[2])
                 ibm_db.execute(prep_stmt)
 
-                return render_template('dashboard.html')
+                return render_template('dashboard.html',active = "home")
     elif request.method == 'GET':
         if session.get('email') == 'None':
                 return render_template('signup.html')
@@ -295,7 +293,9 @@ def render_picture(data):
 
 
 def getaccount(email):
+    
     account = {}
+
     sql =  "SELECT * FROM applicant WHERE email = ?"
     stmt = ibm_db.prepare(conn,sql)
     ibm_db.bind_param(stmt, 1, email )
@@ -376,7 +376,8 @@ def getaccount(email):
 @app.route('/view', methods = ['GET'])
 def viewresume():
         account = getaccount(session.get('email'))
-        return render_template('View.html', account=account)
+        if account:
+            return render_template('View.html', account=account, active = "view", l = account)
 
 @app.route('/edit',methods = ['POST','GET'])
 def edit():
@@ -384,7 +385,7 @@ def edit():
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         dob = request.form['dob']
-        gender = request.form['gender']
+        
 
         c10 = {}
         c10['school'] = request.form['10school']
@@ -537,7 +538,7 @@ def edit():
             ibm_db.bind_param(prep_stmt, 4, pid )
             ibm_db.execute(prep_stmt)
 
-        return render_template('dashboard.html')
+        return render_template('dashboard.html', active = "home")
 
     elif request.method == 'GET':
         if session.get('email') == 'None':
@@ -545,11 +546,15 @@ def edit():
         else:
             account = getaccount(session.get('email'))
             skills = ['Software Development','JavaScript', 'SQL' ,'AngularJS', 'Software Development Life Cycle (SDLC)','Agile Methodologies', 'Java', 'Dalim', 'jQuery', '.NET Framework', 'Requirements Analysis', 'PL/SQL', 'XML', 'HTML', 'Web Services', 'Node.js', 'Microsoft SQL Server', 'Oracle Database', 'C#', 'Unix', 'HTML5',' Cascading Style Sheets (CSS)', 'Web Development' ,'ASP.NET MVC', 'Language Integrated Query (LINQ)', 'ASP.NET' ,'Microsoft', 'Azure', 'TypeScript', 'Git', 'ASP.NET', 'Web API', 'Spring Boot', 'MySQL' ,'C++', 'Core Java','Choose a Skill']
-            return render_template('Edit.html', account=account, skills=skills)
+            return render_template('Edit.html', account=account, skills=skills,active = "edit")
         
 @app.route('/dashboard',methods = ['GET'])
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dashboard.html',active = "home")
+
+@app.route('/search', methods=['GET'])
+def search():
+    return render_template('dashboard.html',active = "search")
 
 @app.route('/logout',methods = ['GET'])
 def logout():
