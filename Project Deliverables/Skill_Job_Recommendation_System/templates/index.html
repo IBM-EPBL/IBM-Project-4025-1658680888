@@ -23,6 +23,11 @@
 
   <!-- Template Main CSS File -->
   <link href="static/css/style1.css" rel="stylesheet">
+  <style>
+    .button:hover {
+      color : white
+    }
+  </style>
 
   
 </head>
@@ -32,8 +37,6 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
-
-     
       
 
     </div>
@@ -47,8 +50,8 @@
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Job Up</h1>
           <h2>All In One Stop For Job</h2>
-          <button class="button button1">Sign Up</button>
-<button class="button button2">Login</button>
+          <a class="button button1 text-white" href="{{url_for('signup')}}">Sign Up</a>
+          <a class="button button2 text-white" href="{{url_for('login')}}">Login</a>
 
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img">

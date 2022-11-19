@@ -1,4 +1,5 @@
 import hashlib
+import json
 from flask import Flask,render_template,request,session
 import ibm_db,random,base64,requests
 
@@ -559,13 +560,13 @@ def search():
     if request.method =='POST':
         s={}
         s['search'] = request.form['search']
-        url = "https://google-jobs.p.rapidapi.com/"
+        url = "https://jsearch.p.rapidapi.com/search"
 
-        querystring = {"keyword":"Software Engineer","location":"India","offset":"0"}
+        querystring = {"query":"Python developer in Texas, USA","page":"1","date_posted":"3days","remote_jobs_only":"true","employment_types":"FULLTIME","job_requirements":"under_3_years_experience","num_pages":"1"}
 
         headers = {
         	"X-RapidAPI-Key": "a7bfe999d1msh2e21c1da5b65d8bp147712jsn620e1a85c8e9",
-        	"X-RapidAPI-Host": "google-jobs.p.rapidapi.com"
+        	"X-RapidAPI-Host": "jsearch.p.rapidapi.com"
         }
 
         response = requests.request("GET", url, headers=headers, params=querystring)
@@ -574,6 +575,12 @@ def search():
         return render_template('job_search.html',data=response.text)
     elif request.method =='GET':
         return render_template('search_page.html',active = "search")
+
+
+@app.route('/',methods = ['GET'])
+def index():
+    return render_template('index.html')
+
 
 @app.route('/logout',methods = ['GET'])
 def logout():
