@@ -1,9 +1,6 @@
 import hashlib
-import json
 from flask import Flask,render_template,request,session
 import ibm_db,random,base64,requests
-
-from markupsafe import escape
 import MailboxValidator
 
 from sendgrid import SendGridAPIClient
@@ -588,7 +585,7 @@ def logout():
     return render_template('login.html', active = 'login')
 
 
-
+app.run(host="127.0.0.1")
 
 
 
